@@ -1,12 +1,15 @@
 
-def print_menu():
+def print_menu(size):
     """
     Afiseaza meniul pentru utilizator
     """
-    print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
-    print("2. Calculati suma numerelor dintr-o secventa data")
-    print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
-    print("4. Iesire\n")
+    if(size !=0 ):
+        print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
+        print("2. Calculati suma numerelor dintr-o secventa data")
+        print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
+        print("4. Iesire\n")
+    else:
+        print("4. Iesire")
 
 
 def print_secv(myList, start, end, prop):
@@ -64,6 +67,7 @@ def print_imag(myList, start, end):
     for c in range(start-1, end):
         print("Numarul " + str(myList[c]) +" are partea imaginara "+str(myList[c].imag))
     print()
+
 
 
 def print_imag_list(myList):
@@ -187,13 +191,16 @@ def elim_prime(myList):
     return myList
 
 
-def read_option():
+def read_option(size):
     """
     Citeste optiunea utilizatorului si returneaza un raspuns valid
     :return op: optiunea aleasa - str
     """
 
-    options = ["1", "2", "3", "4"]
+    if size!=0:
+        options = ["1", "2", "3", "4"]
+    else:
+        options = ["4"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -208,20 +215,20 @@ def run():
     Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
     de catre utilizator
     """
-    myList = [1+2j, -2+10j, 13-14j, 10, 5j]
-    myList = [2+2j, 2, 3, 7+5j]
+    myList = [2+2j, 2, 3, 7+5j, 4]
     noRetFunc = {"1": print_imag_list, "2": sum_secv}
     func = {"3": elim_prime}
 
     while True:
-        print_menu()
-        op = read_option()
+        print_menu(len(myList))
+        op = read_option(len(myList))
         if op == "4":  # iesire din program
             return
         if(op in noRetFunc):
             noRetFunc[op](myList)
         else:
             myList = func[op](myList)
+        input("Apasati Enter pentru a continua...")
 
 
 def runTests():
