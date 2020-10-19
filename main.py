@@ -1,10 +1,12 @@
 
-def print_menu(size):
-    if size != 0:
-        print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
-        print("2. Calculati suma numerelor dintr-o secventa data")
-        print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
-        print("4. Iesire\n")
+def print_menu():
+    """
+    Afiseaza meniul pentru utilizator
+    """
+    print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
+    print("2. Calculati suma numerelor dintr-o secventa data")
+    print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
+    print("4. Iesire\n")
 
 
 def print_secv(myList, start, end, prop):
@@ -27,6 +29,12 @@ def print_secv(myList, start, end, prop):
 
 
 def get_positions(size):
+    """
+    Returneaza valorile date de utilizator pentru inceputul si sfarsitul unei secvente
+    :param size:
+    :return start, end: start- inceputul secventei ; end - sfarsitul secventei
+    """
+
     start = input("Dati pozitia de inceput a secventei: ")
     while (not start.isnumeric()) or (start.isnumeric() and (int(start) < 1 or int(start)>size)):
         print("Pozitia de inceput trebuie sa fie o valoare intre 1 si " + str(size) + ".")
@@ -45,17 +53,48 @@ def get_positions(size):
 
 
 def print_imag(myList, start, end):
+    """
+    Afiseaza partea imaginara a numerelor din intervalul [start, end]
+    :param myList: lista de numere complexe
+    :param start: pozitia de inceput
+    :param end: pozitia de sfarsit
+    :return:
+    """
+
     for c in range(start-1, end):
         print("Numarul " + str(myList[c]) +" are partea imaginara "+str(myList[c].imag))
     print()
 
 
 def print_imag_list(myList):
+    """
+    Obtine datele de intrare de la utilizator si apeleaza functia de afisare a partilor imaginare
+    a unor numere aflate in myList in interavlul [start, end]
+    :param myList: lista de numere complexe
+    :return:
+    """
+
+    if(len(myList) == 0):
+        print("Lista este goala.\n")
+        return
     start, end = get_positions(len(myList))
     print_imag(myList, start, end)
 
 
+def test_det_sum():
+    assert(det_sum([], 1, 0) == 0)
+    assert(det_sum([1 + 1j, 2 +2j, 3, 4j], 1, 4) == 6+7j)
+    assert(det_sum([-1, -5+3j, 3-5j], 1, 2)==-6+3j)
+
+
 def det_sum(myList, start, end):
+    """
+    Determina suma elementelor din myList aflate in secventa [start, end]
+    :param myList: lista de numere complexe
+    :param start: pozitia initiala
+    :param end: pozitia finala
+    :return suma: suma elementelor din [start, end] (0 - valoare implicita)
+    """
     suma = 0
 
     for i in range(start-1, end):
@@ -65,16 +104,40 @@ def det_sum(myList, start, end):
 
 
 def sum_secv(myList):
+    """
+    Preia datele de la utilizator, determina suma si afiseaza rezultatul.
+    :param myList: lista de numere complexe
+    """
+
+    if(len(myList)==0):
+        print("Lista este goala\n")
+        return
+
     start, end = get_positions(len(myList))
     suma = det_sum(myList, start, end)
     print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
           str(suma)+"\n")
 
 
+def test_prime():
+    assert (prime(-7) == False)
+    assert (prime(0) == False)
+    assert (prime(1) == False)
+    assert (prime(2) == True)
+    assert (prime(11) == True)
+    assert (prime(30) == False)
+
 def prime(x):
-    if x < 1:
+    """
+    Returneaza True daca numarul x este prim, False in caz contrar
+    :param x: numar real
+    :return True: daca x este prim
+    :return False: daca x nu este prim
+    """
+
+    if x <= 1:
         return False
-    if x % 2 == 0 and x !=2:
+    if x % 2 == 0 and x != 2:
         return False
 
     div = 3
@@ -84,18 +147,35 @@ def prime(x):
         div += 2
     return True
 
+def test_elim_elements():
+    assert(elim_elements([], prime) == [])
+    assert(elim_elements([1, -2 + 2j, 2 + 2j, 6j], prime) == [1, -2+2j, 6j])
+    assert(elim_elements([2+2j, 3,2, 7+5j], prime) == [])
 
 def elim_elements(myList, condition):
-    newList = list.copy(myList)
-
-    for c in newList:
-        if condition(c.real):
-            newList.remove(c)
-
+    """
+    Elimina elementele din myList care indeplinesc conditia condition
+    :param myList: lista de numere complexe
+    :param condition: o functie boolean care verifica o conditie
+    :return newList: lista rezultata in urma eliminarii
+    """
+    newList = [x for x in myList if not prime(x.real)]
 
     return newList
 
+
+# test case-urile pentru aceasta functie sunt identice cu cele ale lui elim_elements
 def elim_prime(myList):
+    """
+    Elimina elementele din lista myList si afiseaza lista obtinuta.
+    :param myList: lista de numere complexe
+    :return myList: lista obtinuta in urma eliminarii
+    """
+
+    if(len(myList) == 0):
+        print("Lista este goala.\n")
+        return myList
+
     condition = "Lista initiala este: "
     print_secv(myList, 0, len(myList), condition)
 
@@ -106,11 +186,14 @@ def elim_prime(myList):
 
     return myList
 
-def read_option(size):
-    # definim optiunile in functie de existenta elementelor in lista
-    if(size != 0 ):
-        options = ["1", "2", "3", "4"]
-    else: options = []
+
+def read_option():
+    """
+    Citeste optiunea utilizatorului si returneaza un raspuns valid
+    :return op: optiunea aleasa - str
+    """
+
+    options = ["1", "2", "3", "4"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -126,13 +209,13 @@ def run():
     de catre utilizator
     """
     myList = [1+2j, -2+10j, 13-14j, 10, 5j]
-    #myList = []
+    myList = [2+2j, 2, 3, 7+5j]
     noRetFunc = {"1": print_imag_list, "2": sum_secv}
     func = {"3": elim_prime}
 
     while True:
-        print_menu(len(myList))
-        op = read_option(len(myList))
+        print_menu()
+        op = read_option()
         if op == "4":  # iesire din program
             return
         if(op in noRetFunc):
@@ -141,5 +224,12 @@ def run():
             myList = func[op](myList)
 
 
+def runTests():
+    test_prime()
+    test_det_sum()
+    test_elim_elements()
+
+
 #apel functii
+runTests()
 run()
