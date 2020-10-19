@@ -3,18 +3,27 @@ def print_menu(size):
     if size != 0:
         print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
         print("2. Calculati suma numerelor dintr-o secventa data")
+        print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
         print("4. Iesire\n")
 
 
-def print_secv(myList, start, end):
+def print_secv(myList, start, end, prop):
     """
     Afiseaza elementele din myList dintre pozitiile start si end
 
     :param myList: lista de numere compe;xe
     :param start: pozitia de start
     :param end: pozitia finala
+    :param prop: proprietatea in urma careia s-a ajuns la aceasta secventa (None implicit)
     """
-    pass
+    if len(myList) == 0:
+        print("Lista este goala.\n")
+    else:
+        if prop != None:
+            print(prop)
+        print(myList)
+        print()
+
 
 
 def get_positions(size):
@@ -62,10 +71,45 @@ def sum_secv(myList):
           str(suma)+"\n")
 
 
+def prime(x):
+    if x < 1:
+        return False
+    if x % 2 == 0 and x !=2:
+        return False
+
+    div = 3
+    while div * div <= x:
+        if x % div == 0:
+            return False
+        div += 2
+    return True
+
+
+def elim_elements(myList, condition):
+    newList = list.copy(myList)
+
+    for c in newList:
+        if condition(c.real):
+            newList.remove(c)
+
+
+    return newList
+
+def elim_prime(myList):
+    condition = "Lista initiala este: "
+    print_secv(myList, 0, len(myList), condition)
+
+    myList = elim_elements(myList, prime)
+
+    condition = "Lista obtinuta in urma eliminarii tuturor numerelor cu partea reala prima este: "
+    print_secv(myList, 0, len(myList), condition)
+
+    return myList
+
 def read_option(size):
     # definim optiunile in functie de existenta elementelor in lista
     if(size != 0 ):
-        options = ["1", "2", "4"]
+        options = ["1", "2", "3", "4"]
     else: options = []
 
     op = input("Alegeti o optiune: ").strip()
@@ -82,8 +126,10 @@ def run():
     de catre utilizator
     """
     myList = [1+2j, -2+10j, 13-14j, 10, 5j]
+    #myList = []
     noRetFunc = {"1": print_imag_list, "2": sum_secv}
-    func = {}
+    func = {"3": elim_prime}
+
     while True:
         print_menu(len(myList))
         op = read_option(len(myList))
