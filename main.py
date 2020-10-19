@@ -1,7 +1,8 @@
 
 def print_menu(size):
-    if size!=0:
+    if size != 0:
         print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
+        print("2. Calculati suma numerelor dintr-o secventa data")
         print("4. Iesire\n")
 
 
@@ -45,10 +46,26 @@ def print_imag_list(myList):
     print_imag(myList, start, end)
 
 
+def det_sum(myList, start, end):
+    suma = 0
+
+    for i in range(start-1, end):
+        suma += myList[i]
+
+    return suma
+
+
+def sum_secv(myList):
+    start, end = get_positions(len(myList))
+    suma = det_sum(myList, start, end)
+    print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
+          str(suma)+"\n")
+
+
 def read_option(size):
     # definim optiunile in functie de existenta elementelor in lista
     if(size != 0 ):
-        options = ["1", "4"]
+        options = ["1", "2", "4"]
     else: options = []
 
     op = input("Alegeti o optiune: ").strip()
@@ -65,7 +82,7 @@ def run():
     de catre utilizator
     """
     myList = [1+2j, -2+10j, 13-14j, 10, 5j]
-    noRetFunc = {"1": print_imag_list}
+    noRetFunc = {"1": print_imag_list, "2": sum_secv}
     func = {}
     while True:
         print_menu(len(myList))
