@@ -113,7 +113,7 @@ def sum_secv(myList):
     :param myList: lista de numere complexe
     """
 
-    if(len(myList)==0):
+    if len(myList) == 0:
         print("Lista este goala\n")
         return
 
@@ -151,10 +151,12 @@ def prime(x):
         div += 2
     return True
 
+
 def test_elim_elements():
     assert(elim_elements([], prime) == [])
     assert(elim_elements([1, -2 + 2j, 2 + 2j, 6j], prime) == [1, -2+2j, 6j])
     assert(elim_elements([2+2j, 3,2, 7+5j], prime) == [])
+
 
 def elim_elements(myList, condition):
     """
@@ -197,7 +199,7 @@ def read_option(size):
     :return op: optiunea aleasa - str
     """
 
-    if size!=0:
+    if size != 0:
         options = ["1", "2", "3", "4"]
     else:
         options = ["4"]
@@ -239,4 +241,4 @@ def runTests():
 
 #apel functii
 runTests()
-run() #fodgiofjg
+run() #this is a new comment
