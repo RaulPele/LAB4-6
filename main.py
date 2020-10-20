@@ -7,9 +7,11 @@ def print_menu(size):
         print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
         print("2. Calculati suma numerelor dintr-o secventa data")
         print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
-        print("4. Iesire\n")
+        print("4. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
+              "decat un numar dat")
+        print("5. Iesire\n")
     else:
-        print("4. Iesire")
+        print("5. Iesire")
 
 
 def print_secv(myList, start, end, prop):
@@ -69,7 +71,6 @@ def print_imag(myList, start, end):
     print()
 
 
-
 def print_imag_list(myList):
     """
     Obtine datele de intrare de la utilizator si apeleaza functia de afisare a partilor imaginare
@@ -78,7 +79,7 @@ def print_imag_list(myList):
     :return:
     """
 
-    if(len(myList) == 0):
+    if len(myList) == 0:
         print("Lista este goala.\n")
         return
     start, end = get_positions(len(myList))
@@ -153,25 +154,30 @@ def prime(x):
 
 
 def test_elim_elements():
-    assert(elim_elements([], prime) == [])
-    assert(elim_elements([1, -2 + 2j, 2 + 2j, 6j], prime) == [1, -2+2j, 6j])
-    assert(elim_elements([2+2j, 3,2, 7+5j], prime) == [])
+    assert(filter_elements([], prime, None) == [])
+    assert(filter_elements([1, -2 + 2j, 2 + 2j, 6j], prime, None) == [1, -2+2j, 6j])
+    assert(filter_elements([2+2j, 3,2, 7+5j], prime, None) == [])
+
+    assert(filter_elements([1, -2+2j, 2+2j, 6j], less_than, 4) == [6j])
+    assert(filter_elements([1, -2+2j, 2+2j, 6j], greater_than, 4) == [1, -2+2j, 2+2j])
 
 
-def elim_elements(myList, condition):
+def filter_elements(myList, condition, nr):
     """
     Elimina elementele din myList care indeplinesc conditia condition
     :param myList: lista de numere complexe
     :param condition: o functie boolean care verifica o conditie
     :return newList: lista rezultata in urma eliminarii
     """
-    newList = [x for x in myList if not prime(x.real)]
-
+    if nr == None:
+        newList = [x for x in myList if not condition(x.real)]
+    else:
+        newList = [x for x in myList if not condition(nr, x)]
     return newList
 
 
-# test case-urile pentru aceasta functie sunt identice cu cele ale lui elim_elements
-def elim_prime(myList):
+# test case-urile pentru aceasta functie sunt identice cu cele ale lui filter_elements
+def filter_prime(myList):
     """
     Elimina elementele din lista myList si afiseaza lista obtinuta.
     :param myList: lista de numere complexe
@@ -185,12 +191,81 @@ def elim_prime(myList):
     condition = "Lista initiala este: "
     print_secv(myList, 0, len(myList), condition)
 
-    myList = elim_elements(myList, prime)
+    filteredList = filter_elements(myList, prime, None)
 
     condition = "Lista obtinuta in urma eliminarii tuturor numerelor cu partea reala prima este: "
-    print_secv(myList, 0, len(myList), condition)
+    print_secv(filteredList, 0, len(filteredList), condition)
 
-    return myList
+
+def get_number():
+    """
+    Functia returneaza numarul cu care se vor compara modulele numerelor din lista.
+    :return c: numar real
+    """
+
+    x = input("Dati numarul pentru realizarea comparatiei modulelor: ")
+    try:
+        x = float(x)
+    except ValueError:
+        print("Numarul introdus trebuie sa fie real\n")
+        return get_number()
+
+    return x
+
+
+def less_than(x, mod):
+    return abs(mod) < x
+
+
+def greater_than(x, mod):
+    return x < abs(mod)
+
+
+def equal_to(x, mod):
+    return x == abs(mod)
+
+
+def get_condition(x):
+    """
+    Functia returneaza conditia impusa de utilizator cu referire la modulul
+    numerelor care se vor elimina.
+    :return: condition - conditia < or > or =;
+    """
+
+    options = {"<": less_than, ">": greater_than, "=": equal_to}
+
+    comp = input("Modulele numerelor care vor fi eliminate sunt mai mici(<), mai mari(>) sau egale(=)\n"
+                 "decat  numarul "+str(x)+ "?\n")
+
+    while comp not in options:
+        print("Raspuns invalid. Raspunsul dat trebuie sa fie din multimea", options.keys())
+        comp = input("Modulele numerelor care vor fi eliminate sunt mai mici(<), mai mari(>) sau egale(=)\n"
+                     "numarul " + str(x) + "?\n")
+
+    return options[comp]
+
+
+def filter_module(myList):
+    """
+    Elimina elementele din myList a caror modul indeplinesc o conditie data
+    :param myList: lista de numere complexe
+    :return myList: lista obtinuta in urma eliminarii
+    """
+
+    if len(myList) == 0:
+        print("Lista este goala.\n")
+        return myList
+
+    x = get_number()
+    condition = get_condition(x)
+
+    printMsg = "Lista initiala este: "
+    print_secv(myList, 0, len(myList), printMsg)
+
+    filteredList = filter_elements(myList, condition, x)
+
+    printMsg = "Lista obtinuta in urma eliminarii este: "
+    print_secv(filteredList, 0, len(filteredList), printMsg)
 
 
 def read_option(size):
@@ -200,9 +275,9 @@ def read_option(size):
     """
 
     if size != 0:
-        options = ["1", "2", "3", "4"]
+        options = ["1", "2", "3", "4", "5"]
     else:
-        options = ["4"]
+        options = ["5"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -218,15 +293,15 @@ def run():
     de catre utilizator
     """
     myList = [2+2j, 2, 3, 7+5j, 4]
-    noRetFunc = {"1": print_imag_list, "2": sum_secv}
-    func = {"3": elim_prime}
+    noRetFunc = {"1": print_imag_list, "2": sum_secv, "3": filter_prime, "4": filter_module}
+    func = {}
 
     while True:
         print_menu(len(myList))
         op = read_option(len(myList))
-        if op == "4":  # iesire din program
+        if op == "5":  # iesire din program
             return
-        if(op in noRetFunc):
+        if op in noRetFunc:
             noRetFunc[op](myList)
         else:
             myList = func[op](myList)
@@ -241,4 +316,5 @@ def runTests():
 
 #apel functii
 runTests()
-run() #this is a new comment
+run()
+
