@@ -154,25 +154,25 @@ def prime(x):
 
 
 def test_elim_elements():
-    assert(filter_elements([], prime, None) == [])
-    assert(filter_elements([1, -2 + 2j, 2 + 2j, 6j], prime, None) == [1, -2+2j, 6j])
-    assert(filter_elements([2+2j, 3,2, 7+5j], prime, None) == [])
+    assert(filter_elements([], prime) == [])
+    assert(filter_elements([1, -2 + 2j, 2 + 2j, 6j], prime) == [1, -2+2j, 6j])
+    assert(filter_elements([2+2j, 3,2, 7+5j], prime) == [])
 
     assert(filter_elements([1, -2+2j, 2+2j, 6j], less_than, 4) == [6j])
     assert(filter_elements([1, -2+2j, 2+2j, 6j], greater_than, 4) == [1, -2+2j, 2+2j])
 
 
-def filter_elements(myList, condition, nr):
+def filter_elements(myList, condition, *args):
     """
     Elimina elementele din myList care indeplinesc conditia condition
     :param myList: lista de numere complexe
     :param condition: o functie boolean care verifica o conditie
     :return newList: lista rezultata in urma eliminarii
     """
-    if nr == None:
+    if len(args) == 0:
         newList = [x for x in myList if not condition(x.real)]
     else:
-        newList = [x for x in myList if not condition(nr, x)]
+        newList = [x for x in myList if not condition(args[0], x)]
     return newList
 
 
@@ -191,7 +191,7 @@ def filter_prime(myList):
     condition = "Lista initiala este: "
     print_secv(myList, 0, len(myList), condition)
 
-    filteredList = filter_elements(myList, prime, None)
+    filteredList = filter_elements(myList, prime)
 
     condition = "Lista obtinuta in urma eliminarii tuturor numerelor cu partea reala prima este: "
     print_secv(filteredList, 0, len(filteredList), condition)
