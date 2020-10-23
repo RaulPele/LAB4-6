@@ -1,6 +1,6 @@
 # module imports
 import ui
-
+import tests
 
 def run():
     """
@@ -22,14 +22,9 @@ def run():
             myList = func[op](myList)
         input("Apasati Enter pentru a continua...")
 
-"""
-def runTests():
-    test_prime()
-    test_det_sum()
-    test_elim_elements()
-"""
 
 # apel functii
-#runTests()
-run()
+if __name__ == "__main__":
+    tests.run_tests()
+    run()
 
