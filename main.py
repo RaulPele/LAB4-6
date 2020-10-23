@@ -314,7 +314,7 @@ def runTests():
     test_elim_elements()
 
 
-#apel functii
+# apel functii
 runTests()
 run()
 
