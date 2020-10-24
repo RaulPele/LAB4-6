@@ -2,8 +2,6 @@
 Modul pentru operatii de input/output din lista
 """
 
-#TODO: write test function
-
 
 def get_imaginaries(myList, start, end):
     """
@@ -35,7 +33,6 @@ def duplicate(myList, c):
     return False
 
 
-#TODO: write test function
 def add_number(myList, c):
     """
     Adauga numarul complex c la finalul listei si returneaza lista obtinuta
@@ -54,7 +51,6 @@ def add_number(myList, c):
     return newList
 
 
-#TODO: write test function
 def insert_number(myList, c, pos):
     """
     Insereaza numarul c pe pozitia pos-1 in myList si returneaza lista obtinuta
@@ -74,9 +70,11 @@ def insert_number(myList, c, pos):
     return newList
 
 
-
 def valid_position(pos, size):
-    """Returneaza true daca pozitia este valida pentru o lista de dimensiune size, altfel False"""
+    """Returneaza true daca pozitia este valida pentru o lista de dimensiune size, altfel False
+    :param pos: string reprezentand posibila pozitie
+    :param size: numar natural reprezentand dimensiunea listei pentru care se face verificarea
+    """
     if (not pos.isnumeric()) or (pos.isnumeric() and (int(pos) < 1 or int(pos)>size)):
         return False
     return True

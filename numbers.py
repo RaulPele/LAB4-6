@@ -58,16 +58,4 @@ def equal_to(x, compl):
         """
     return x == abs(compl)
 
-#TODO: Write test function
-def natural(x):
-    """
-    Defineste tipul de numere naturale
-    Returneaza x daca numarul este natural, altfel raise ValueError
-    :param x: numar real
-    :return x: daca x este natural
-
-    """
-    if x.type == int and x >= 0:
-        return x
-    raise ValueError
 

@@ -31,10 +31,75 @@ def test_det_sum():
 
 
 def test_get_imaginaries():
-    pass
+    imaginaries = lists.IO.get_imaginaries([],1, 0)
+    assert(imaginaries == [])
+
+    imaginaries = lists.IO.get_imaginaries([1, 2, 3], 1, 3)
+    assert(imaginaries == [0, 0, 0])
+
+    imaginaries = lists.IO.get_imaginaries([1j, 2, 4j, -2-2j], 2, 4)
+    assert(imaginaries == [0, 4, -2])
+
+    imaginaries = lists.IO.get_imaginaries([-2j, -3j, 4j, 5j], 1, 4)
+    assert(imaginaries == [-2, -3, 4, 5])
+
+
+def test_duplicates():
+    assert (lists.IO.duplicate([], 2+2j) == False)
+    assert (lists.IO.duplicate([1, 2+2j, 3], 4j) == False)
+    assert(lists.IO.duplicate([1, 2+2j, 3], 2+2j) == True)
+
+
+def test_add_number():
+    myList = [1j, 2, 4-5j]
+    try:
+        myList = lists.IO.add_number(myList, 10+2j)
+        assert(myList == [1j, 2, 4-5j, 10+2j])
+    except Exception as ex:
+        assert(False)
+
+    try:
+        myList = lists.IO.add_number(myList, 4-5j)
+        assert(False)
+    except Exception as ex:
+        assert(True)
+
+
+def test_insert_number():
+    myList = []
+    try:
+        myList = lists.IO.insert_number(myList, 2j, 1)
+        assert(myList == [2j])
+    except Exception as ex:
+        assert(False)
+
+    myList =[-2, -2j, 3, 4j]
+    try:
+        myList = lists.IO.insert_number(myList, 2j, 2)
+        assert(myList == [-2, 2j, -2j, 3, 4j])
+    except Exception as ex:
+        assert(False)
+
+    myList = [-2, -2j, 3, 4j]
+    try:
+        myList = lists.IO.insert_number(myList, -2j, 2)
+        assert(False)
+    except Exception as ex:
+        assert(True)
+
+def test_valid_position():
+    assert(lists.IO.valid_position("5", 3) == False)
+    assert(lists.IO.valid_position("5", 10) == True)
+    assert(lists.IO.valid_position("-5", 10) == False)
 
 
 def run_tests():
     test_prime()
     test_filter_elements()
     test_det_sum()
+    test_get_imaginaries()
+    test_duplicates()
+    test_add_number()
+    test_insert_number()
+    test_valid_position()
+
