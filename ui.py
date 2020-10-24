@@ -5,6 +5,7 @@ import numbers
 import lists.filters
 import lists.operations
 import lists.IO
+import lists.sorting
 
 
 def print_menu(size):
@@ -17,16 +18,17 @@ def print_menu(size):
         print("2. Inserati un numar complex pe o pozitie data")
         print("3. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
         print("4. Calculati suma numerelor dintr-o secventa data")
-        print("5. Eliminati toate numerele din lista are au partea reala un numar prim")
-        print("6. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
+        print("5. Tipariti lista ordonata descrescator dupa partea imaginara")
+        print("6. Eliminati toate numerele din lista are au partea reala un numar prim")
+        print("7. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
               "decat un numar dat")
-        print("7. Stergeti un numar de pe o pozitie data")
-        print("8. Stergeti o secventa de numere din lista")
-        print("9. Iesire\n")
+        print("8. Stergeti un numar de pe o pozitie data")
+        print("9. Stergeti o secventa de numere din lista")
+        print("10. Iesire\n")
     else:
         print("1. Adaugati un numar complex la finalul listei")
         print("2. Inserati un numar complex pe o pozitie data")
-        print("9. Iesire")
+        print("10. Iesire")
 
 
 def print_secv(myList, start, end, prop):
@@ -55,9 +57,9 @@ def read_option(size):
     """
 
     if size != 0:
-        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     else:
-        options = ["1", "2", "9"]
+        options = ["1", "2", "10"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -182,7 +184,7 @@ def sum_secv(myList):
         print("Lista este goala\n")
         return
 
-    start, end = get_positions(len(myList))
+    start, end = __get_positions(len(myList))
     suma = lists.operations.det_sum(myList, start, end)
     print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
           str(suma)+"\n")
@@ -199,7 +201,7 @@ def print_imag_list(myList):
     if len(myList) == 0:
         print("Lista este goala.\n")
         return
-    start, end = get_positions(len(myList))
+    start, end = __get_positions(len(myList))
     imaginaries = lists.IO.get_imaginaries(myList, start, end)
 
     printMsg = "Lista originala este:"
@@ -309,4 +311,16 @@ def delete_sequence(myList):
 
     print_secv(newList, 0, len(newList), "Lista rezultata in urma eliminarii este: ")
     return newList
+
+
+def sort_desc_img(myList):
+    """
+    Sorteaza si afiseaza lista ordonata descrescator dupa partea imaginara
+    :param myList: lista de numere complexe
+    """
+    if len(myList) == 0:
+        print("Lista este goala.")
+
+    sortedList = lists.sorting.sort_list(myList, lists.sorting.imag_desc)
+    print_secv(sortedList, 0, len(sortedList), "Lista sortata descrescator dupa partea imaginara: ")
 

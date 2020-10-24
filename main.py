@@ -8,15 +8,15 @@ def run():
     de catre utilizator
     """
     myList = [2+2j, 2, 3, 7+5j, 4]
-    noRetFunc = {"3": ui.print_imag_list,
-                 "4": ui.sum_secv, "5": ui.filter_prime, "6": ui.filter_module}
-    func = {"1": ui.add_number, "2": ui.insert_number, "7": ui.delete_number,
-            "8": ui.delete_sequence}
+    noRetFunc = {"3": ui.print_imag_list, "4": ui.sum_secv, "5": ui.sort_desc_img,
+                 "6": ui.filter_prime, "7": ui.filter_module}
+    func = {"1": ui.add_number, "2": ui.insert_number, "8": ui.delete_number,
+            "9": ui.delete_sequence}
 
     while True:
         ui.print_menu(len(myList))
         op = ui.read_option(len(myList))
-        if op == "9":  # iesire din program
+        if op == "10":  # iesire din program
             return
         if op in noRetFunc:
             noRetFunc[op](myList)

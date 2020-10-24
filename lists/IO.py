@@ -80,7 +80,6 @@ def valid_position(pos, size):
     return True
 
 
-#TODO: write test 
 def delete_numbers(myList, start, end):
     """
     Elimina elementele din intervalul de pozitii [start, end] si returneaza lista rezultata
