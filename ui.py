@@ -13,14 +13,16 @@ def print_menu(size):
     """
     
     if size != 0:
-        print("1. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
-        print("2. Calculati suma numerelor dintr-o secventa data")
-        print("3. Eliminati toate numerele din lista are au partea reala un numar prim")
-        print("4. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
+        print("1. Adaugati un numar complex la finalul listei")
+        print("2. Inserati un numar complex pe o pozitie data")
+        print("3. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
+        print("4. Calculati suma numerelor dintr-o secventa data")
+        print("5. Eliminati toate numerele din lista are au partea reala un numar prim")
+        print("6. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
               "decat un numar dat")
-        print("5. Iesire\n")
+        print("7. Iesire\n")
     else:
-        print("5. Iesire")
+        print("7. Iesire")
 
 
 def print_secv(myList, start, end, prop):
@@ -49,9 +51,9 @@ def read_option(size):
     """
 
     if size != 0:
-        options = ["1", "2", "3", "4", "5"]
+        options = ["1", "2", "3", "4", "5", "6", "7"]
     else:
-        options = ["5"]
+        options = ["7"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -61,18 +63,18 @@ def read_option(size):
     return op
 
 
-def __get_number():
+def __get_number(type, inputMsg):
     """
     Functia returneaza numarul cu care se vor compara modulele numerelor din lista.
     :return c: numar real
     """
 
-    x = input("Dati numarul pentru realizarea comparatiei modulelor: ")
+    x = input(inputMsg)
     try:
-        x = float(x)
+        x = type(x)
     except ValueError:
-        print("Numarul introdus trebuie sa fie real\n")
-        return __get_number()
+        print("Numarul introdus trebuie sa fie " + type.__name__ + "\n")
+        return __get_number(type, inputMsg)
 
     return x
 
@@ -108,7 +110,7 @@ def filter_module(myList):
         print("Lista este goala.\n")
         return myList
 
-    x = __get_number()
+    x = __get_number(float, "Dati numarul pentru realizarea comparatiei modulelor: ")
     condition = __get_condition(x)
 
     printMsg = "Lista initiala este: "
@@ -200,3 +202,34 @@ def print_imag_list(myList):
     printMsg = "Partile imaginare ale numerelor aflate intre pozitiile " + str(start) + " si " + str(end) + " sunt: "
     print_secv(imaginaries, 0, len(imaginaries), printMsg)
 
+
+def add_number(myList):
+    """
+    Preia un numar complex de la utilizator, il adauga la finalul listei si afiseaza rezultatul
+    returnand lista obtinuta sau afiseaza un mesaj corespunzator daca elementul exista deja
+    in lista.
+    :param myList: lista de numere complexe
+    :return newList: lista obtinuta in urma adaugarii
+    """
+
+    c = __get_number(complex, "Dati numarul complex (a+bj, unde a, b - real) care va fi introdus in lista: ")
+    try:
+        newList = lists.IO.add_number(myList, c)
+    except Exception as ex:
+        print(str(ex))
+    else:
+        printMsg = "Lista obtinuta in urma adaugarii este: "
+        print_secv(newList, 0, len(newList), printMsg)
+        return newList
+
+    return myList
+
+
+def insert_number(myList):
+    """
+    Preia un numar complex de la utilizator, il adauga in lista pe o pozitie data si afiseaza rezultatul
+    returnand lista obtinuta sau afiseaza un mesaj corespunzator daca elementul exista deja in lista.
+
+    :param myList: lista de numere complexe
+    :return newList: lista obtinuta in urma adaugarii
+    """

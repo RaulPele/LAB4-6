@@ -16,9 +16,9 @@ def test_prime():
     
 
 def test_filter_elements():
-    assert(lists.filters.filter_elements([], numbers.is_prime()) == [])
-    assert(lists.filters.filter_elements([1, -2 + 2j, 2 + 2j, 6j], numbers.is_prime()) == [1, -2+2j, 6j])
-    assert(lists.filters.filter_elements([2+2j, 3,2, 7+5j], numbers.is_prime()) == [])
+    assert(lists.filters.filter_elements([], numbers.is_prime) == [])
+    assert(lists.filters.filter_elements([1, -2 + 2j, 2 + 2j, 6j], numbers.is_prime) == [1, -2+2j, 6j])
+    assert(lists.filters.filter_elements([2+2j, 3,2, 7+5j], numbers.is_prime) == [])
 
     assert(lists.filters.filter_elements([1, -2+2j, 2+2j, 6j], numbers.less_than, 4) == [6j])
     assert(lists.filters.filter_elements([1, -2+2j, 2+2j, 6j], numbers.greater_than, 4) == [1, -2+2j, 2+2j])
@@ -31,7 +31,7 @@ def test_det_sum():
 
 
 def test_get_imaginaries():
-
+    pass
 
 
 def run_tests():

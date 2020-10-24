@@ -21,3 +21,34 @@ def get_imaginaries(myList, start, end):
 
     return imaginaries
 
+
+def duplicate(myList, c):
+    """
+    Returneaza True daca numarul c se afla in lista, False in caz contrar
+    :param myList: lista de numere complexe
+    :param c: numarul complex care se cauta in lista
+    :return: True- daca x e in lista
+            False - daca x nu se afla in lista
+    """
+    if c in myList:
+        return True
+    return False
+
+
+#TODO: write test function
+def add_number(myList, c):
+    """
+    Adauga numarul complex c la finalul listei si returneaza lista obtinuta
+    raise Exception - in caz ca numarul exista deja in lista
+    :param myList: lista de numere complexe
+    :param c: numar complex
+    :return newList: lista obtinuta in urma adaugarii
+    """
+
+    if duplicate(myList, c):
+        raise Exception("Numarul exista deja in lista.")
+
+    newList = myList.copy()
+    newList.append(c)
+
+    return newList
