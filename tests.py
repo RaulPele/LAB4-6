@@ -5,6 +5,7 @@ import numbers
 import lists.operations
 import lists.filters
 import lists.IO
+import lists.sorting
 
 def test_prime():
     assert (numbers.is_prime(-7) == False)
@@ -87,6 +88,7 @@ def test_insert_number():
     except Exception as ex:
         assert(True)
 
+
 def test_valid_position():
     assert(lists.IO.valid_position("5", 3) == False)
     assert(lists.IO.valid_position("5", 10) == True)
@@ -107,6 +109,20 @@ def test_delete_numbers():
         assert(False)
 
 
+def test_sort_list():
+    try:
+        sortedList = lists.sorting.sort_list([1, 1+2j, 5j, 3j, -100+100j], lists.sorting.imag_desc)
+        assert(sortedList == [-100 + 100j, 5j, 3j, 1+2j, 1])
+    except Exception as ex:
+        assert(False)
+
+    try:
+        sortedList = lists.sorting.sort_list([], lists.sorting.imag_desc)
+        assert(False)
+    except Exception as ex:
+        assert(True)
+
+
 def run_tests():
     test_prime()
     test_filter_elements()
@@ -117,4 +133,4 @@ def run_tests():
     test_insert_number()
     test_valid_position()
     test_delete_numbers()
-
+    test_sort_list()
