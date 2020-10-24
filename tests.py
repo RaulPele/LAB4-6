@@ -93,6 +93,20 @@ def test_valid_position():
     assert(lists.IO.valid_position("-5", 10) == False)
 
 
+def test_delete_numbers():
+    try:
+        newList = lists.IO.delete_numbers([], 1, 0)
+        assert(False)
+    except Exception as ex:
+        assert(True)
+
+    try:
+        newList = lists.IO.delete_numbers([1, 2j, 3+4j, -5j], 1, 3)
+        assert(newList == [-5j])
+    except Exception as ex:
+        assert(False)
+
+
 def run_tests():
     test_prime()
     test_filter_elements()
@@ -102,4 +116,5 @@ def run_tests():
     test_add_number()
     test_insert_number()
     test_valid_position()
+    test_delete_numbers()
 
