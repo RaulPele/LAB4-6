@@ -52,3 +52,32 @@ def add_number(myList, c):
     newList.append(c)
 
     return newList
+
+
+#TODO: write test function
+def insert_number(myList, c, pos):
+    """
+    Insereaza numarul c pe pozitia pos-1 in myList si returneaza lista obtinuta
+    raise Exception - in caz ca numarul exista deja in lista
+    :param myList: lista de numere complexe
+    :param c: numar complex
+    :param pos: pozitie valida din lista
+    :return newList: lista obtinuta in urma adaugarii
+    """
+
+    if duplicate(myList, c):
+        raise Exception("Numarul exista deja in lista.")
+
+    newList = myList.copy()
+    newList.insert(pos-1, c)
+
+    return newList
+
+
+
+def valid_position(pos, size):
+    """Returneaza true daca pozitia este valida pentru o lista de dimensiune size, altfel False"""
+    if (not pos.isnumeric()) or (pos.isnumeric() and (int(pos) < 1 or int(pos)>size)):
+        return False
+    return True
+

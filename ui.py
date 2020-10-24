@@ -142,6 +142,8 @@ def filter_prime(myList):
     print_secv(filteredList, 0, len(filteredList), condition)
 
 
+
+
 def get_positions(size):
     """
     Returneaza valorile date de utilizator pentru inceputul si sfarsitul unei secvente
@@ -150,14 +152,14 @@ def get_positions(size):
     """
 
     start = input("Dati pozitia de inceput a secventei: ")
-    while (not start.isnumeric()) or (start.isnumeric() and (int(start) < 1 or int(start)>size)):
+    while not lists.IO.valid_position(start, size):
         print("Pozitia de inceput trebuie sa fie o valoare intre 1 si " + str(size) + ".")
         start = input("Dati pozitia de inceput a secventei: ")
 
     start = int(start)
 
     end = input("Dati pozitia de sfarsit a secventei: ")
-    while (not end.isnumeric()) or (end.isnumeric() and (int(end) < 1 or int(end)>size or int(end)<start)):
+    while (not lists.IO.valid_position(end, size)) or int(end)<start:
         print("Pozitia de sfarsit trebuie sa fie o valoare intre 1 si "+ str(size) + " mai mica"+
               " ca pozitia de inceput.")
         end = input("Dati pozitia de sfarsit a secventei: ")
@@ -225,6 +227,21 @@ def add_number(myList):
     return myList
 
 
+def __get_position(size, inputMsg):
+    """
+    Returneaza o pozitie valida din lista.
+    :param size: dimensiunea listei
+    :param inputMsg: mesaj referitor la pozitie
+    :return pos: pozitia din lista
+    """
+    pos = input(inputMsg)
+    while not lists.IO.valid_position(pos, size):
+        print("Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size))
+        pos = input(inputMsg)
+
+    return int(pos)
+
+
 def insert_number(myList):
     """
     Preia un numar complex de la utilizator, il adauga in lista pe o pozitie data si afiseaza rezultatul
@@ -233,3 +250,16 @@ def insert_number(myList):
     :param myList: lista de numere complexe
     :return newList: lista obtinuta in urma adaugarii
     """
+
+    c = __get_number(complex, "Dati numarul complex (a+bj, unde a, b - real) care va fi introdus in lista: ")
+    pos = __get_position(len(myList), "Dati pozitia pe care va fi inserat numarul " + str(c) + ": ")
+
+    try:
+        newList = lists.IO.insert_number(myList, c, pos)
+    except Exception as ex:
+        print(str(ex))
+    else:
+        printMsg = "Lista obtinuta in urma inserarii este: "
+        print_secv(newList, 0, len(newList), printMsg)
+        return newList
+    return myList
