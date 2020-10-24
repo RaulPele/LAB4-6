@@ -24,6 +24,8 @@ def print_menu(size):
         print("8. Stergeti o secventa de numere din lista")
         print("9. Iesire\n")
     else:
+        print("1. Adaugati un numar complex la finalul listei")
+        print("2. Inserati un numar complex pe o pozitie data")
         print("9. Iesire")
 
 
@@ -55,7 +57,7 @@ def read_option(size):
     if size != 0:
         options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     else:
-        options = ["9"]
+        options = ["1", "2", "9"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -146,7 +148,7 @@ def filter_prime(myList):
 
 
 
-def get_positions(size):
+def __get_positions(size):
     """
     Returneaza valorile date de utilizator pentru inceputul si sfarsitul unei secvente
     :param size:
@@ -279,13 +281,32 @@ def delete_number(myList):
         print("Lista este goala.\n")
         return
 
-    print_secv(myList, "Lista initiala este: ")
+    print_secv(myList, 0, len(myList), "Lista initiala este: ")
 
     pos = __get_position(len(myList), "Dati pozitia din lista de pe care se va elimina numarul complex: ")
-    newList = lists.IO.delete_number(myList, pos)
+    newList = lists.IO.delete_numbers(myList, pos, pos)
 
-    print_secv(newList, "Lista obtinuta in urma eliminarii: ")
+    print_secv(newList, 0, len(newList), "Lista obtinuta in urma eliminarii: ")
     return newList
 
+
 def delete_sequence(myList):
-    pass
+    """
+    Preia pozitiile start, end de la utilizator  si elimina elementele de pe pozitiile [start, end], afiseaza
+    rezultatul si returneaza lista obtinuta sau tipareste un mesaj corespunzator daca lista este goala
+    :param myList: lista de numere complexe
+    :return newList: lista obtinuta in urma eliminarii
+    """
+
+    if len(myList) == 0:
+        print("Lista este goala.")
+        return
+
+    print_secv(myList, 0, len(myList), "Lista initiala este: ")
+
+    start, end = __get_positions(len(myList))
+    newList = lists.IO.delete_numbers(myList, start, end)
+
+    print_secv(newList, 0, len(newList), "Lista rezultata in urma eliminarii este: ")
+    return newList
+
