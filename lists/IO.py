@@ -79,3 +79,21 @@ def valid_position(pos, size):
         return False
     return True
 
+
+#TODO: write test 
+def delete_number(myList, pos):
+    """
+    Elimina elementul de pe pozitia pos din lista myList si returneaza lista rezultata
+    raise Exception - in caz ca lista este goala
+    :param myList: lista de numere complexe
+    :param pos: numar natural reprezentand pozitia
+    :return newList: lista obtinuta in urma eliminarii
+    """
+
+    if len(myList) == 0:
+        raise Exception("Lista este goala")
+
+    newList = myList.copy()
+    del newList[pos]
+
+    return newList
