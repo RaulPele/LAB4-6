@@ -7,7 +7,7 @@ def run():
     Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
     de catre utilizator
     """
-    myList = [2+2j, 2, 3, 7+5j, 4]
+    myList = []
     noRetFunc = {"3": ui.print_imag_list, "4": ui.sum_secv, "5": ui.sort_desc_img,
                  "6": ui.filter_prime, "7": ui.filter_module}
     func = {"1": ui.add_number, "2": ui.insert_number, "8": ui.delete_number,
@@ -29,5 +29,4 @@ def run():
 if __name__ == "__main__":
     tests.run_tests()
     run()
-
 

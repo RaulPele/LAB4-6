@@ -123,6 +123,14 @@ def test_sort_list():
         assert(True)
 
 
+def test_valid_insert_position():
+    assert(lists.IO.valid_insert_position("5", 3) == False)
+    assert(lists.IO.valid_insert_position("5", 10) == True)
+    assert(lists.IO.valid_insert_position("-5", 10) == False)
+    assert(lists.IO.valid_insert_position("1", 0) == True)
+    assert(lists.IO.valid_insert_position("10", 9) == True)
+
+
 def run_tests():
     test_prime()
     test_filter_elements()
@@ -132,5 +140,6 @@ def run_tests():
     test_add_number()
     test_insert_number()
     test_valid_position()
+    test_valid_insert_position()
     test_delete_numbers()
     test_sort_list()

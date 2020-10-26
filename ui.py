@@ -248,6 +248,26 @@ def __get_position(size, inputMsg):
     return int(pos)
 
 
+def __get_insert_position(size, inputMsg):
+    """
+    Returneaza o pozitie valida pentru inserarea unui numar in lista
+    :param size: numar natural - dimensiunea listei
+    :param inputMsg: mesaj pentru utilizator
+    :return pos: pozitie valida pe care se va insera un numar
+    """
+    if size == 0:
+        errorMsg = "Lista este goala. Pozitia de inserare trebuie sa fie egala cu 1"
+    else:
+        errorMsg = "Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size+1)
+
+    pos = input(inputMsg)
+    while not lists.IO.valid_insert_position(pos, size):
+        print(errorMsg)
+        pos = input(inputMsg)
+
+    return int(pos)
+
+
 def insert_number(myList):
     """
     Preia un numar complex de la utilizator, il adauga in lista pe o pozitie data si afiseaza rezultatul
@@ -258,7 +278,7 @@ def insert_number(myList):
     """
 
     c = __get_number(complex, "Dati numarul complex (a+bj, unde a, b - real) care va fi introdus in lista: ")
-    pos = __get_position(len(myList), "Dati pozitia pe care va fi inserat numarul " + str(c) + ": ")
+    pos = __get_insert_position(len(myList), "Dati pozitia pe care va fi inserat numarul " + str(c) + ": ")
 
     try:
         newList = lists.IO.insert_number(myList, c, pos)
