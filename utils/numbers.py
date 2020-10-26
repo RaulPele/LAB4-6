@@ -2,6 +2,7 @@
 Modulul contine functii pentru operatii si proprietati numerice.
 """
 
+
 def is_prime(x):
     """
     Returneaza True daca numarul x este prim, False in caz contrar

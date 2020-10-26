@@ -1,11 +1,11 @@
 """
 Modul pentru definirea interactiunii dintre utilizator si program
 """
-import numbers
-import lists.filters
-import lists.operations
-import lists.IO
-import lists.sorting
+from utils import numbers
+import BLL.lists.operations
+import BLL.lists.IO
+import BLL.lists.sorting
+import BLL.lists.filters
 
 
 def print_menu(size):
@@ -122,7 +122,7 @@ def filter_module(myList):
     printMsg = "Lista initiala este: "
     print_secv(myList, 0, len(myList), printMsg)
 
-    filteredList = lists.filters.filter_elements(myList, condition, x)
+    filteredList = BLL.lists.filters.filter_elements(myList, condition, x)
 
     printMsg = "Lista obtinuta in urma eliminarii este: "
     print_secv(filteredList, 0, len(filteredList), printMsg)
@@ -142,7 +142,7 @@ def filter_prime(myList):
     condition = "Lista initiala este: "
     print_secv(myList, 0, len(myList), condition)
 
-    filteredList = lists.filters.filter_elements(myList, numbers.is_prime)
+    filteredList = BLL.lists.filters.filter_elements(myList, numbers.is_prime)
 
     condition = "Lista obtinuta in urma eliminarii tuturor numerelor cu partea reala prima este: "
     print_secv(filteredList, 0, len(filteredList), condition)
@@ -158,14 +158,14 @@ def __get_positions(size):
     """
 
     start = input("Dati pozitia de inceput a secventei: ")
-    while not lists.IO.valid_position(start, size):
+    while not BLL.lists.IO.valid_position(start, size):
         print("Pozitia de inceput trebuie sa fie o valoare intre 1 si " + str(size) + ".")
         start = input("Dati pozitia de inceput a secventei: ")
 
     start = int(start)
 
     end = input("Dati pozitia de sfarsit a secventei: ")
-    while (not lists.IO.valid_position(end, size)) or int(end)<start:
+    while (not BLL.lists.IO.valid_position(end, size)) or int(end)<start:
         print("Pozitia de sfarsit trebuie sa fie o valoare intre 1 si "+ str(size) + " mai mica"+
               " ca pozitia de inceput.")
         end = input("Dati pozitia de sfarsit a secventei: ")
@@ -185,7 +185,7 @@ def sum_secv(myList):
         return
 
     start, end = __get_positions(len(myList))
-    suma = lists.operations.det_sum(myList, start, end)
+    suma = BLL.lists.operations.det_sum(myList, start, end)
     print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
           str(suma)+"\n")
 
@@ -202,7 +202,7 @@ def print_imag_list(myList):
         print("Lista este goala.\n")
         return
     start, end = __get_positions(len(myList))
-    imaginaries = lists.IO.get_imaginaries(myList, start, end)
+    imaginaries = BLL.lists.IO.get_imaginaries(myList, start, end)
 
     printMsg = "Lista originala este:"
     print_secv(myList, 0, len(myList), printMsg)
@@ -222,7 +222,7 @@ def add_number(myList):
 
     c = __get_number(complex, "Dati numarul complex (a+bj, unde a, b - real) care va fi introdus in lista: ")
     try:
-        newList = lists.IO.add_number(myList, c)
+        newList = BLL.lists.IO.add_number(myList, c)
     except Exception as ex:
         print(str(ex))
     else:
@@ -241,7 +241,7 @@ def __get_position(size, inputMsg):
     :return pos: pozitia din lista
     """
     pos = input(inputMsg)
-    while not lists.IO.valid_position(pos, size):
+    while not BLL.lists.IO.valid_position(pos, size):
         print("Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size))
         pos = input(inputMsg)
 
@@ -261,7 +261,7 @@ def __get_insert_position(size, inputMsg):
         errorMsg = "Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size+1)
 
     pos = input(inputMsg)
-    while not lists.IO.valid_insert_position(pos, size):
+    while not BLL.lists.IO.valid_insert_position(pos, size):
         print(errorMsg)
         pos = input(inputMsg)
 
@@ -281,7 +281,7 @@ def insert_number(myList):
     pos = __get_insert_position(len(myList), "Dati pozitia pe care va fi inserat numarul " + str(c) + ": ")
 
     try:
-        newList = lists.IO.insert_number(myList, c, pos)
+        newList = BLL.lists.IO.insert_number(myList, c, pos)
     except Exception as ex:
         print(str(ex))
     else:
@@ -306,7 +306,7 @@ def delete_number(myList):
     print_secv(myList, 0, len(myList), "Lista initiala este: ")
 
     pos = __get_position(len(myList), "Dati pozitia din lista de pe care se va elimina numarul complex: ")
-    newList = lists.IO.delete_numbers(myList, pos, pos)
+    newList = BLL.lists.IO.delete_numbers(myList, pos, pos)
 
     print_secv(newList, 0, len(newList), "Lista obtinuta in urma eliminarii: ")
     return newList
@@ -327,7 +327,7 @@ def delete_sequence(myList):
     print_secv(myList, 0, len(myList), "Lista initiala este: ")
 
     start, end = __get_positions(len(myList))
-    newList = lists.IO.delete_numbers(myList, start, end)
+    newList = BLL.lists.IO.delete_numbers(myList, start, end)
 
     print_secv(newList, 0, len(newList), "Lista rezultata in urma eliminarii este: ")
     return newList
@@ -341,6 +341,29 @@ def sort_desc_img(myList):
     if len(myList) == 0:
         print("Lista este goala.")
 
-    sortedList = lists.sorting.sort_list(myList, lists.sorting.imag_desc)
+    sortedList = BLL.lists.sorting.sort_list(myList, BLL.lists.sorting.imag_desc)
     print_secv(sortedList, 0, len(sortedList), "Lista sortata descrescator dupa partea imaginara: ")
+
+
+def run():
+    """
+    Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
+    de catre utilizator
+    """
+    myList = []
+    noRetFunc = {"3": print_imag_list, "4": sum_secv, "5": sort_desc_img,
+                 "6": filter_prime, "7": filter_module}
+    func = {"1": add_number, "2": insert_number, "8": delete_number,
+            "9": delete_sequence}
+
+    while True:
+        print_menu(len(myList))
+        op = read_option(len(myList))
+        if op == "10":  # iesire din program
+            return
+        if op in noRetFunc:
+            noRetFunc[op](myList)
+        else:
+            myList = func[op](myList)
+        input("Apasati Enter pentru a continua...")
 
