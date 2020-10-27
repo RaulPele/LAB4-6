@@ -10,6 +10,7 @@ def filter_elements(myList, condition, *args):
     :param condition: o functie boolean care verifica o conditie
     :return newList: lista rezultata in urma eliminarii
     """
+
     if len(args) == 0:
         newList = [x for x in myList if not condition(x.real)]
     else:

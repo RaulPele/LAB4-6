@@ -148,8 +148,6 @@ def filter_prime(myList):
     print_secv(filteredList, 0, len(filteredList), condition)
 
 
-
-
 def __get_positions(size):
     """
     Returneaza valorile date de utilizator pentru inceputul si sfarsitul unei secvente
@@ -345,25 +343,31 @@ def sort_desc_img(myList):
     print_secv(sortedList, 0, len(sortedList), "Lista sortata descrescator dupa partea imaginara: ")
 
 
+def convert_to_dict(valueList):
+    myList = {i: valueList[i] for i in range(0, len(valueList))}
+    return myList
+
+
 def run():
     """
     Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
     de catre utilizator
     """
-    myList = []
+    myDict = {}
     noRetFunc = {"3": print_imag_list, "4": sum_secv, "5": sort_desc_img,
                  "6": filter_prime, "7": filter_module}
     func = {"1": add_number, "2": insert_number, "8": delete_number,
             "9": delete_sequence}
 
     while True:
-        print_menu(len(myList))
-        op = read_option(len(myList))
+        print_menu(len(myDict))
+        op = read_option(len(myDict))
         if op == "10":  # iesire din program
             return
         if op in noRetFunc:
-            noRetFunc[op](myList)
+            noRetFunc[op](list(myDict.values()))
         else:
-            myList = func[op](myList)
+            valueList = func[op](list(myDict.values()))
+            myDict = convert_to_dict(valueList)
         input("Apasati Enter pentru a continua...")
 
