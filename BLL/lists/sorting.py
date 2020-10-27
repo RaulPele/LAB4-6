@@ -2,6 +2,7 @@
 Modul care contine functii de sortare a unei liste
 """
 
+from BLL.lists.IO import get_imag, get_real
 
 def imag_desc(a, b):
     """
@@ -12,7 +13,7 @@ def imag_desc(a, b):
             False: daca a.imag >=b.imag
     """
 
-    return a.imag < b.imag
+    return get_imag(a) < get_imag(b)
 
 
 def sort_list(myList, condition):

@@ -2,6 +2,7 @@
 Modul pentru functia de filtrare a elementelor dintr-o lista de numere complexe
 """
 
+from BLL.lists.IO import get_imag, get_real
 
 def filter_elements(myList, condition, *args):
     """
@@ -12,7 +13,7 @@ def filter_elements(myList, condition, *args):
     """
 
     if len(args) == 0:
-        newList = [x for x in myList if not condition(x.real)]
+        newList = [x for x in myList if not condition(get_real(x))]
     else:
         newList = [x for x in myList if not condition(args[0], x)]
     return newList

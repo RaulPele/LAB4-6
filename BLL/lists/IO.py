@@ -2,6 +2,7 @@
 Modul pentru operatii de input/output din lista
 """
 
+import utils.numbers
 
 def get_imaginaries(myList, start, end):
     """
@@ -15,7 +16,7 @@ def get_imaginaries(myList, start, end):
 
     imaginaries = []
     for i in range(start-1, end):
-        imaginaries.append(myList[i].imag)
+        imaginaries.append(get_imag(myList[i]))
 
     return imaginaries
 
@@ -45,8 +46,10 @@ def add_number(myList, c):
     if duplicate(myList, c):
         raise Exception("Numarul exista deja in lista.")
 
+
     newList = myList.copy()
-    newList.append(c)
+    number = utils.numbers.create_complex(c.real, c.imag)
+    newList.append(number)
 
     return newList
 
@@ -65,7 +68,8 @@ def insert_number(myList, c, pos):
         raise Exception("Numarul exista deja in lista.")
 
     newList = myList.copy()
-    newList.insert(pos-1, c)
+    number = utils.numbers.create_complex(c.real, c.imag)
+    newList.insert(pos-1, number)
 
     return newList
 
@@ -113,3 +117,9 @@ def delete_numbers(myList, start, end):
     del newList[start-1:end]
 
     return newList
+
+def get_real(x):
+    return x["real"]
+
+def get_imag(x):
+    return x["imag"]

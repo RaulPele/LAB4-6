@@ -2,6 +2,13 @@
 Modulul contine functii pentru operatii si proprietati numerice.
 """
 
+import math
+from BLL.lists.IO import get_imag, get_real
+
+def create_complex(real, imag):
+    number = {"real": real, "imag": imag}
+    return number
+
 
 def is_prime(x):
     """
@@ -33,7 +40,7 @@ def less_than(x, compl):
     :return: True - daca abs(compl)<x
             False - altfel
     """
-    return abs(compl) < x
+    return module(compl) < x
 
 
 def greater_than(x, compl):
@@ -45,7 +52,7 @@ def greater_than(x, compl):
         :return: True - daca abs(compl)>x
                 False - altfel
         """
-    return x < abs(compl)
+    return x < module(compl)
 
 
 def equal_to(x, compl):
@@ -57,6 +64,8 @@ def equal_to(x, compl):
         :return: True - daca abs(compl) == x
                 False - altfel
         """
-    return x == abs(compl)
+    return x == module(compl)
 
 
+def module(compl):
+    return math.sqrt(get_real(compl) * get_real(compl) + get_imag(compl) * get_imag(compl))

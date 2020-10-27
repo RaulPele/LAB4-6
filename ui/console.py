@@ -183,9 +183,9 @@ def sum_secv(myList):
         return
 
     start, end = __get_positions(len(myList))
-    suma = BLL.lists.operations.det_sum(myList, start, end)
+    sumaR, sumaI = BLL.lists.operations.det_sum(myList, start, end)
     print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
-          str(suma)+"\n")
+          str(sumaR)+"+" + str(sumaI) + "j\n")
 
 
 def print_imag_list(myList):
@@ -353,21 +353,22 @@ def run():
     Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
     de catre utilizator
     """
-    myDict = {}
+    myList = []
+    #number = {"real": , "imaginar": }
     noRetFunc = {"3": print_imag_list, "4": sum_secv, "5": sort_desc_img,
                  "6": filter_prime, "7": filter_module}
     func = {"1": add_number, "2": insert_number, "8": delete_number,
             "9": delete_sequence}
 
     while True:
-        print_menu(len(myDict))
-        op = read_option(len(myDict))
+        print_menu(len(myList))
+        op = read_option(len(myList))
         if op == "10":  # iesire din program
             return
         if op in noRetFunc:
-            noRetFunc[op](list(myDict.values()))
+            noRetFunc[op](myList)
         else:
-            valueList = func[op](list(myDict.values()))
-            myDict = convert_to_dict(valueList)
+            myList= func[op](myList)
+           # myDict = convert_to_dict(valueList)
         input("Apasati Enter pentru a continua...")
 
