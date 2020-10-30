@@ -89,7 +89,7 @@ def delete_numbers(myList, start, end):
     if len(myList) == 0:
         raise Exception("Lista este goala")
 
-    newList = myList.copy()
+    newList = copy_list(myList)
     del newList[start-1:end]
 
     return newList

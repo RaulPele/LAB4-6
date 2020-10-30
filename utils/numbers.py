@@ -31,7 +31,7 @@ def less_than(x, compl):
     Returneaza valoarea de adevar a propozitiei: modulul numarului complex
     compl este mai mic decat numarul x.
     :param x: numar real
-    :param compl: numar complex
+    :param compl: obiect Complex
     :return: True - daca abs(compl)<x
             False - altfel
     """
@@ -43,7 +43,7 @@ def greater_than(x, compl):
         Returneaza valoarea de adevar a propozitiei: modulul numarului complex
         compl este mai mare decat numarul x.
         :param x: numar real
-        :param compl: numar complex
+        :param compl: obiect Complex
         :return: True - daca abs(compl)>x
                 False - altfel
         """
@@ -55,7 +55,7 @@ def equal_to(x, compl):
         Returneaza valoarea de adevar a propozitiei: modulul numarului complex
         compl este egal cu numarul x.
         :param x: numar real
-        :param compl: numar complex
+        :param compl: obiect Complex
         :return: True - daca abs(compl) == x
                 False - altfel
         """
@@ -63,8 +63,12 @@ def equal_to(x, compl):
 
 
 def module(compl):
-    #return math.sqrt(get_real(compl) * get_real(compl) + get_imag(compl) * get_imag(compl))
-    pass
+    """
+    Returneaza modulul unui numar complex
+    :param compl: obiect Complex
+    :return : modulul lui compl
+    """
+    return math.sqrt(compl.get_real() * compl.get_real() + compl.get_imag() * compl.get_imag())
 
 
 def isEqual(c1, c2):

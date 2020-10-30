@@ -147,8 +147,9 @@ def filter_module(myList):
 
 def filter_prime(myList):
     """
-    Elimina elementele din lista myList si afiseaza lista obtinuta.
-    :param myList: lista de numere complexe
+    Elimina elementele din lista myList care au partea reala un numar prim
+    si afiseaza lista obtinuta.
+    :param myList: lista de obiecte Complex
     :return myList: lista obtinuta in urma eliminarii
     """
 
@@ -353,7 +354,7 @@ def delete_sequence(myList):
 def sort_desc_img(myList):
     """
     Sorteaza si afiseaza lista ordonata descrescator dupa partea imaginara
-    :param myList: lista de numere complexe
+    :param myList: lista de obiecte Complex
     """
     if len(myList) == 0:
         print("Lista este goala.")

@@ -13,9 +13,8 @@ def filter_elements(myList, condition, *args):
     """
     newList=[]
     if len(args) == 0:
-        pass
-       # newList = [x for x in myList if not condition(get_real(x))]
+        newList = [x for x in myList if not condition(x.get_real())]
     else:
         pass
-       # newList = [x for x in myList if not condition(args[0], x)]
+        newList = [x for x in myList if not condition(args[0], x)]
     return newList
