@@ -1,5 +1,6 @@
 """Modul pentru efectuarea unor operatii pe elementele unei liste"""
 
+from data.entities import  Complex
 
 def det_sum(myList, start, end):
     """
@@ -13,7 +14,7 @@ def det_sum(myList, start, end):
     sumaR = 0
     sumaI= 0
     for i in range(start-1, end):
-        sumaR +=  get_real(myList[i])
-        sumaI += get_imag(myList[i])
-    return sumaR, sumaI
+        sumaR +=  myList[i].get_real()
+        sumaI += myList[i].get_imag()
+    return Complex(sumaR, sumaI)
 

@@ -200,9 +200,10 @@ def sum_secv(myList):
         return
 
     start, end = __get_positions(len(myList))
-    sumaR, sumaI = BLL.lists.operations.det_sum(myList, start, end)
-    print(str(myList)+"\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
-          str(sumaR)+"+" + str(sumaI) + "j\n")
+    suma = BLL.lists.operations.det_sum(myList, start, end)
+    print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
+    print("\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
+          suma.get_complex_string() + "\n")
 
 
 def print_imag_list(myList):
