@@ -6,7 +6,8 @@ import BLL.lists.operations
 import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.filters
-
+from data.validation import validate_number
+from data.entities import Complex
 
 def print_menu(size):
     """
@@ -46,8 +47,8 @@ def print_secv(myList, start, end, prop):
     else:
         if prop != None:
             print(prop)
-        print(myList)
-        print()
+        listStr = BLL.lists.IO.format_list(myList)
+        print(listStr)
 
 
 def read_option(size):
@@ -71,18 +72,34 @@ def read_option(size):
 
 def __get_number(type, inputMsg):
     """
-    Functia returneaza numarul cu care se vor compara modulele numerelor din lista.
-    :return c: numar real
+    Functia returneaza un numar de tipul type de la tastatura
+    :return c: numar de tip type
     """
 
-    x = input(inputMsg)
-    try:
-        x = type(x)
-    except ValueError:
-        print("Numarul introdus trebuie sa fie " + type.__name__ + "\n")
-        return __get_number(type, inputMsg)
+    while True:
+        x = input(inputMsg)
+        try:
+            validate_number(x, type)
+        except ValueError as ex:
+            print(str(ex))
+        else:
+            break
 
-    return x
+    return type(x)
+
+
+def get_Complex():
+    """
+    Returneaza un obiect de tip Complex continand numarul dat de utilizator
+    :param inputMsg: Mesaj afisat utilizatorului
+    :return number: obiectul Complex format
+    """
+    print("Numarul complex este de tipul a+bj (a- numar real numit parte reala, b- numar real numit"+
+          " coeficient imaginar)\n")
+    real = __get_number(float, "Dati partea reala a numarului (a): ")
+    imag = __get_number(float, "Dati coeficientul imaginar a numarului (b): ")
+
+    return Complex(real, imag)
 
 
 def __get_condition(x):
@@ -218,7 +235,7 @@ def add_number(myList):
     :return newList: lista obtinuta in urma adaugarii
     """
 
-    c = __get_number(complex, "Dati numarul complex (a+bj, unde a, b - real) care va fi introdus in lista: ")
+    c = get_Complex()
     try:
         newList = BLL.lists.IO.add_number(myList, c)
     except Exception as ex:

@@ -6,7 +6,7 @@ import BLL.lists.filters
 import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.operations
-
+import data.validation
 
 def test_prime():
     assert (numbers.is_prime(-7) == False)
@@ -132,8 +132,43 @@ def test_valid_insert_position():
     assert(BLL.lists.IO.valid_insert_position("10", 9) == True)
 
 
+def test_validate_number():
+    try:
+        data.validation.validate_number("123", float)
+    except ValueError as ex:
+        assert(False)
+
+    try:
+        data.validation.validate_number("1a.34", int)
+        assert (False)
+    except ValueError as ex:
+        assert(str(ex) == "Numarul trebuie sa fie de tipul intreg!\n")
+
+    try:
+        data.validation.validate_number("12.5", float)
+    except ValueError as ex:
+        assert(False)
+
+    try:
+        data.validation.validate_number("12.5", int)
+        assert (False)
+    except ValueError as ex:
+        assert (str(ex) == "Numarul trebuie sa fie de tipul intreg!\n")
+
+    try:
+        data.validation.validate_number("1+2j", complex)
+    except ValueError as ex:
+        assert (False)
+
+    try:
+        data.validation.validate_number("1+aj", complex)
+        assert (False)
+    except ValueError as ex:
+        assert (str(ex) == "Numarul trebuie sa fie de tipul complex!\n")
+
+
 def run_tests():
-    test_prime()
+    """test_prime()
     test_filter_elements()
     test_det_sum()
     test_get_imaginaries()
@@ -143,4 +178,5 @@ def run_tests():
     test_valid_position()
     test_valid_insert_position()
     test_delete_numbers()
-    test_sort_list()
+    test_sort_list()"""
+    test_validate_number()

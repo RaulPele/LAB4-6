@@ -1,6 +1,5 @@
 """Modul pentru efectuarea unor operatii pe elementele unei liste"""
 
-from BLL.lists.IO import get_real, get_imag
 
 def det_sum(myList, start, end):
     """
@@ -17,3 +16,4 @@ def det_sum(myList, start, end):
         sumaR +=  get_real(myList[i])
         sumaI += get_imag(myList[i])
     return sumaR, sumaI
+

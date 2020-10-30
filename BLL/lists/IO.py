@@ -4,6 +4,7 @@ Modul pentru operatii de input/output din lista
 
 import utils.numbers
 
+
 def get_imaginaries(myList, start, end):
     """
     Returneaza o lista continand partile imaginare ale numerelor aflate
@@ -16,7 +17,8 @@ def get_imaginaries(myList, start, end):
 
     imaginaries = []
     for i in range(start-1, end):
-        imaginaries.append(get_imag(myList[i]))
+        #imaginaries.append(get_imag(myList[i]))
+        pass
 
     return imaginaries
 
@@ -24,13 +26,15 @@ def get_imaginaries(myList, start, end):
 def duplicate(myList, c):
     """
     Returneaza True daca numarul c se afla in lista, False in caz contrar
-    :param myList: lista de numere complexe
-    :param c: numarul complex care se cauta in lista
-    :return: True- daca x e in lista
-            False - daca x nu se afla in lista
+    :param myList: lista de obiecte Complex
+    :param c: obiectul Complex care se cauta in lista
+    :return: True- daca c e in lista
+            False - daca c nu se afla in lista
     """
-    if c in myList:
-        return True
+
+    for nr in myList:
+        if utils.numbers.isEqual(c, nr):
+            return True
     return False
 
 
@@ -46,10 +50,8 @@ def add_number(myList, c):
     if duplicate(myList, c):
         raise Exception("Numarul exista deja in lista.")
 
-
-    newList = myList.copy()
-    number = utils.numbers.create_complex(c.real, c.imag)
-    newList.append(number)
+    newList = copy_list(myList)
+    newList.append(c)
 
     return newList
 
@@ -118,8 +120,30 @@ def delete_numbers(myList, start, end):
 
     return newList
 
-def get_real(x):
-    return x["real"]
 
-def get_imag(x):
-    return x["imag"]
+def format_list(myList):
+    """
+    Formateaza o lista de obiecte Complex intr-o lista de tipul [a+bj, c+dj...]
+    :param myList: lista de numere Complex
+    :return listStr: string reprezentand lista
+    """
+    listStr = "["
+    for i in range(0, len(myList) - 1):
+        listStr += myList[i].get_complex_string() + ", "
+
+    listStr += myList[len(myList)-1].get_complex_string() + "]"
+    return listStr
+
+
+def copy_list(myList):
+    """
+    Returneaza o copie a listei myList
+    :param myList: lista de obiecte Complex
+    :return copy: copia listei myList
+    """
+
+    copy=[]
+    for c in myList:
+        copy.append(c.copy_complex())
+
+    return copy

@@ -2,7 +2,6 @@
 Modul care contine functii de sortare a unei liste
 """
 
-from BLL.lists.IO import get_imag, get_real
 
 def imag_desc(a, b):
     """

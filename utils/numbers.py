@@ -3,11 +3,6 @@ Modulul contine functii pentru operatii si proprietati numerice.
 """
 
 import math
-from BLL.lists.IO import get_imag, get_real
-
-def create_complex(real, imag):
-    number = {"real": real, "imag": imag}
-    return number
 
 
 def is_prime(x):
@@ -68,4 +63,19 @@ def equal_to(x, compl):
 
 
 def module(compl):
-    return math.sqrt(get_real(compl) * get_real(compl) + get_imag(compl) * get_imag(compl))
+    #return math.sqrt(get_real(compl) * get_real(compl) + get_imag(compl) * get_imag(compl))
+    pass
+
+
+def isEqual(c1, c2):
+    """
+    Functia verifica daca doua obiecte Complex c1 si c2 sunt egale
+    :param c1: obiect Complex
+    :param c2: obiect Complex
+    :return True: daca obiectele sunt egale
+            False: daca obiectele nu sunt egale
+    """
+
+    if c1.get_real() == c2.get_real() and c1.get_imag() == c2.get_image():
+        return True
+    return False
