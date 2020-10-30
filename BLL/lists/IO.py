@@ -3,7 +3,7 @@ Modul pentru operatii de input/output din lista
 """
 
 import utils.numbers
-
+from data.entities import  Complex
 
 def get_imaginaries(myList, start, end):
     """
@@ -17,8 +17,9 @@ def get_imaginaries(myList, start, end):
 
     imaginaries = []
     for i in range(start-1, end):
-        #imaginaries.append(get_imag(myList[i]))
-        pass
+        c = Complex()
+        c.set_imag(myList[i].get_imag())
+        imaginaries.append(c)
 
     return imaginaries
 
@@ -69,37 +70,10 @@ def insert_number(myList, c, pos):
     if duplicate(myList, c):
         raise Exception("Numarul exista deja in lista.")
 
-    newList = myList.copy()
-    number = utils.numbers.create_complex(c.real, c.imag)
-    newList.insert(pos-1, number)
+    newList = copy_list(myList)
+    newList.insert(pos-1, c)
 
     return newList
-
-
-def valid_position(pos, size):
-    """Returneaza true daca pozitia este valida pentru o lista de dimensiune size, altfel False
-    :param pos: string reprezentand posibila pozitie
-    :param size: numar natural reprezentand dimensiunea listei pentru care se face verificarea
-    """
-    if (not pos.isnumeric()) or (pos.isnumeric() and (int(pos) < 1 or int(pos)>size)):
-        return False
-    return True
-
-
-def valid_insert_position(pos, size):
-    """
-    Returneaza true daca pozitia pos este corecta pentru operatia de inserare a unui numar pe o pozitie din lista
-    :param pos: string reprezentand posibila pozitie
-    :param size: numar natural reprezentand dimensiunea listei pentru care se face verificarea
-    :return True: pozitie valida
-            False: pozitie invalida
-    """
-    if not pos.isnumeric():
-        return False
-    if (pos.isnumeric()) and (size !=0 and (int(pos) <1 or
-                                            int(pos)>size+1) or (size == 0 and int(pos) != 1)):
-        return False
-    return True
 
 
 def delete_numbers(myList, start, end):

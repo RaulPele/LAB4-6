@@ -76,6 +76,6 @@ def isEqual(c1, c2):
             False: daca obiectele nu sunt egale
     """
 
-    if c1.get_real() == c2.get_real() and c1.get_imag() == c2.get_image():
+    if c1.get_real() == c2.get_real() and c1.get_imag() == c2.get_imag():
         return True
     return False
