@@ -2,7 +2,7 @@
 Modul pentru crearea entitatilor de date utilizate de program
 """
 
-from data.validation import  validate_number
+from data.validation import validate_number
 
 
 class Complex:
