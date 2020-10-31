@@ -24,7 +24,7 @@ def get_imaginaries(myList, start, end):
     return imaginaries
 
 
-def duplicate(myList, c):
+def in_list(myList, c):
     """
     Returneaza True daca numarul c se afla in lista, False in caz contrar
     :param myList: lista de obiecte Complex
@@ -48,8 +48,8 @@ def add_number(myList, c):
     :return newList: lista obtinuta in urma adaugarii
     """
 
-    if duplicate(myList, c):
-        raise Exception("Numarul exista deja in lista.")
+   # if duplicate(myList, c):
+    #    raise Exception("Numarul exista deja in lista.")
 
     newList = copy_list(myList)
     newList.append(c)
@@ -67,8 +67,8 @@ def insert_number(myList, c, pos):
     :return newList: lista obtinuta in urma adaugarii
     """
 
-    if duplicate(myList, c):
-        raise Exception("Numarul exista deja in lista.")
+    #if duplicate(myList, c):
+     #   raise Exception("Numarul exista deja in lista.")
 
     newList = copy_list(myList)
     newList.insert(pos-1, c)
@@ -91,6 +91,26 @@ def delete_numbers(myList, start, end):
 
     newList = copy_list(myList)
     del newList[start-1:end]
+
+    return newList
+
+
+def replace_number(myList, number, replacement):
+    """
+    Inlocuieste numarul number din myList cu numarul replacement
+    raise Exception: daca numarul number nu se afla in lista
+    :param myList: lista de obiecte Complex
+    :param number: obiect Complex
+    :param replacement: obiect Complex
+    :return newList: lista obtinuta in urma inlocuirii
+    """
+    if not in_list(myList, number):
+        raise Exception("Numarul " + number.get_complex_string() +" nu se afla in lista!")
+
+    newList = copy_list(myList)
+    for i in range(0, len(newList)):
+        if utils.numbers.isEqual(newList[i], number):
+            newList[i] = Complex.copy_complex(replacement)
 
     return newList
 

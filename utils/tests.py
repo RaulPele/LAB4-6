@@ -117,11 +117,11 @@ def test_get_imaginaries():
 
 def test_duplicates():
     c = Complex(2, 2)
-    assert (BLL.lists.IO.duplicate([], c) == False)
+    assert (BLL.lists.IO.in_list([], c) == False)
     myList = convert_list([1, 2 + 2j, 3])
-    assert (BLL.lists.IO.duplicate(myList, Complex(0, 4)) == False)
+    assert (BLL.lists.IO.in_list(myList, Complex(0, 4)) == False)
     myList = convert_list([1, 2 + 2j, 3])
-    assert(BLL.lists.IO.duplicate(myList, Complex(2, 2)) == True)
+    assert(BLL.lists.IO.in_list(myList, Complex(2, 2)) == True)
 
 
 def test_add_number():
@@ -287,6 +287,24 @@ def test_validate_number():
         assert (str(ex) == "Numarul trebuie sa fie de tipul complex!\n")
 
 
+def test_replace_number():
+    try:
+        number = Complex(1)
+        results = BLL.lists.IO.replace_number([], number, Complex(2))
+        assert (False)
+    except Exception as ex:
+        assert (str(ex) == "Numarul " + number.get_complex_string() +" nu se afla in lista!")
+
+    try:
+        number = Complex(1, 2)
+        myList = convert_list([1+2j, -1-2j, 0, 1+2j, 100+100j])
+        results = BLL.lists.IO.replace_number(myList, number, Complex(0, 0))
+        correct = convert_list([0, -1-2j, 0, 0, 100+100j])
+        assert(isEqual(results, correct))
+    except Exception as ex:
+        assert (False)
+
+
 def run_tests():
     test_prime()
     test_filter_elements()
@@ -300,4 +318,5 @@ def run_tests():
     test_delete_numbers()
     test_sort_list()
     test_validate_number()
+    test_replace_number()
 

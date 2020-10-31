@@ -25,18 +25,19 @@ def print_menu(size):
               "decat un numar dat")
         print("8. Stergeti un numar de pe o pozitie data")
         print("9. Stergeti o secventa de numere din lista")
-        print("10. Iesire\n")
+        print("10. Inlocuire numar complex din lista")
+        print("11. Iesire\n")
     else:
         print("1. Adaugati un numar complex la finalul listei")
         print("2. Inserati un numar complex pe o pozitie data")
-        print("10. Iesire")
+        print("11. Iesire")
 
 
 def print_seq_complex(myList, start, end, prop):
     """
     Afiseaza elementele din myList dintre pozitiile start si end
 
-    :param myList: lista de numere compe;xe
+    :param myList: lista de numere complexe
     :param start: pozitia de start
     :param end: pozitia finala
     :param prop: proprietatea in urma careia s-a ajuns la aceasta secventa (None implicit)
@@ -59,9 +60,9 @@ def read_option(size):
     """
 
     if size != 0:
-        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
     else:
-        options = ["1", "2", "10"]
+        options = ["1", "2", "11"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -89,13 +90,16 @@ def __get_number(type, inputMsg):
     return type(x)
 
 
-def get_Complex():
+def get_Complex(inputMsg=None):
     """
     Returneaza un obiect de tip Complex continand numarul dat de utilizator
     :return number: obiectul Complex format
     """
     print("Numarul complex este de tipul a+bj (a- numar real numit parte reala, b- numar real numit"+
           " coeficient imaginar)\n")
+    if inputMsg is not None:
+        print(inputMsg)
+
     real = __get_number(float, "Dati partea reala a numarului (a): ")
     imag = __get_number(float, "Dati coeficientul imaginar a numarului (b): ")
 
@@ -359,9 +363,36 @@ def sort_desc_img(myList):
     """
     if len(myList) == 0:
         print("Lista este goala.")
+        return
 
     sortedList = BLL.lists.sorting.sort_list(myList, BLL.lists.sorting.imag_desc)
     print_seq_complex(sortedList, 0, len(sortedList), "Lista sortata descrescator dupa partea imaginara: ")
+
+
+def replace_number(myList):
+    """
+    Inlocuieste toate aparitiile unui numar complex din lista cu un numar
+    dat de utilizator sau afiseaza un mesaj corespunzator daca numarul
+    nu se afla in lista
+    :param myList: lista de obiecte Complex
+    :return newList: lista obtinuta in urma inlocuirii
+    """
+    if len(myList)==0:
+        print("Lista este goala.")
+        return
+
+    print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
+    number = get_Complex("Alegeti numarul din lista care va fi inlocuit: ")
+    replacement = get_Complex("Alegeti numarul cu care se va inlocui "+number.get_complex_string()+": ")
+    try:
+        newList = BLL.lists.IO.replace_number(myList, number, replacement)
+    except Exception as ex:
+        print(str(ex))
+    else:
+        print_seq_complex(newList, 0, len(newList), "Lista obtinuta in urma inlocuirii: ")
+        return newList
+    return myList
+
 
 
 def run():
@@ -374,12 +405,12 @@ def run():
     noRetFunc = {"3": print_imag_list, "4": sum_secv, "5": sort_desc_img,
                  "6": filter_prime, "7": filter_module}
     func = {"1": add_number, "2": insert_number, "8": delete_number,
-            "9": delete_sequence}
+            "9": delete_sequence, "10": replace_number}
 
     while True:
         print_menu(len(myList))
         op = read_option(len(myList))
-        if op == "10":  # iesire din program
+        if op == "11":  # iesire din program
             return
         if op in noRetFunc:
             noRetFunc[op](myList)
