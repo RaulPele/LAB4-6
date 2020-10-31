@@ -26,11 +26,13 @@ def print_menu(size):
         print("8. Stergeti un numar de pe o pozitie data")
         print("9. Stergeti o secventa de numere din lista")
         print("10. Inlocuire numar complex din lista")
-        print("11. Iesire\n")
+        print("11. Tipariti elementele din lista care au modulul mai mic decat 10")
+        print("12. Tipariti elementele din lista care au modulul egal cu 10")
+        print("13. Iesire\n")
     else:
         print("1. Adaugati un numar complex la finalul listei")
         print("2. Inserati un numar complex pe o pozitie data")
-        print("11. Iesire")
+        print("13. Iesire")
 
 
 def print_seq_complex(myList, start, end, prop):
@@ -60,9 +62,9 @@ def read_option(size):
     """
 
     if size != 0:
-        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+        options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
     else:
-        options = ["1", "2", "11"]
+        options = ["1", "2", "13"]
 
     op = input("Alegeti o optiune: ").strip()
 
@@ -394,6 +396,29 @@ def replace_number(myList):
     return myList
 
 
+def print_modless10(myList):
+    """
+    Tipareste numerele din lista care au modulul mai mic decat 10
+    :param myList: lista de obiecte Complex
+    """
+    if len(myList) == 0:
+        print("Lista este goala.")
+        return
+
+    print_seq_complex(myList, 0, len(myList), "Lista initiala este: ")
+    filteredList = BLL.lists.filters.filter_elements(myList, numbers.greater_than, 10)
+    print_seq_complex(filteredList, 0, len(filteredList), "Lista numerelor cu modulul mai mic decat 10: ")
+
+
+def print_modeq10(myList):
+    if len(myList) == 0:
+        print("Lista este goala")
+        return
+    print_seq_complex(myList, 0, len(myList), "Lista initiala este: ")
+    filteredList = BLL.lists.filters.filter_elements(myList,  numbers.less_than, 10)
+    filteredList = BLL.lists.filters.filter_elements(filteredList, numbers.greater_than, 10)
+    print_seq_complex(filteredList, 0, len(filteredList), "Lista numerelor cu modulul egal cu 10: ")
+
 
 def run():
     """
@@ -403,14 +428,15 @@ def run():
     myList = []
 
     noRetFunc = {"3": print_imag_list, "4": sum_secv, "5": sort_desc_img,
-                 "6": filter_prime, "7": filter_module}
+                 "6": filter_prime, "7": filter_module, "11": print_modless10,
+                 "12":print_modeq10}
     func = {"1": add_number, "2": insert_number, "8": delete_number,
             "9": delete_sequence, "10": replace_number}
 
     while True:
         print_menu(len(myList))
         op = read_option(len(myList))
-        if op == "11":  # iesire din program
+        if op == "13":  # iesire din program
             return
         if op in noRetFunc:
             noRetFunc[op](myList)
