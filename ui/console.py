@@ -6,7 +6,7 @@ import BLL.lists.operations
 import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.filters
-from data.validation import validate_number, valid_position, valid_insert_position
+from data.validation import validate_number, validate_position, validate_insert_position
 from data.entities import Complex
 
 def print_menu(size):
@@ -173,20 +173,16 @@ def __get_positions(size):
     :return start, end: start- inceputul secventei ; end - sfarsitul secventei
     """
 
-    start = input("Dati pozitia de inceput a secventei: ")
-    while not valid_position(start, size):
-        print("Pozitia de inceput trebuie sa fie o valoare intre 1 si " + str(size) + ".")
-        start = input("Dati pozitia de inceput a secventei: ")
+    inputMsg = "Dati pozitia de inceput a secventei: "
+    start = __get_position(size, inputMsg)
 
-    start = int(start)
-
-    end = input("Dati pozitia de sfarsit a secventei: ")
-    while (not valid_position(end, size)) or int(end)<start:
-        print("Pozitia de sfarsit trebuie sa fie o valoare intre 1 si "+ str(size) + " mai mica"+
-              " ca pozitia de inceput.")
-        end = input("Dati pozitia de sfarsit a secventei: ")
-
-    end = int(end)
+    inputMsg = "Dati pozitia de sfarsit a secventei: "
+    while True:
+        end = __get_position(size, inputMsg)
+        if start > end:
+            print("Pozitia de sfarsit trebuie sa fie mai mare sau egala cu " + str(start) +"\n")
+        else:
+            break
     return start, end
 
 
@@ -257,10 +253,15 @@ def __get_position(size, inputMsg):
     :param inputMsg: mesaj referitor la pozitie
     :return pos: pozitia din lista
     """
-    pos = input(inputMsg)
-    while not valid_position(pos, size):
-        print("Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size))
+
+    while True:
         pos = input(inputMsg)
+        try:
+            validate_position(pos, size)
+        except Exception as ex:
+            print(str(ex))
+        else:
+            break
 
     return int(pos)
 
@@ -272,15 +273,15 @@ def __get_insert_position(size, inputMsg):
     :param inputMsg: mesaj pentru utilizator
     :return pos: pozitie valida pe care se va insera un numar
     """
-    if size == 0:
-        errorMsg = "Lista este goala. Pozitia de inserare trebuie sa fie egala cu 1"
-    else:
-        errorMsg = "Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size+1)
 
-    pos = input(inputMsg)
-    while not valid_insert_position(pos, size):
-        print(errorMsg)
+    while True:
         pos = input(inputMsg)
+        try:
+            validate_insert_position(pos, size)
+        except Exception as ex:
+            print(str(ex))
+        else:
+            break
 
     return int(pos)
 

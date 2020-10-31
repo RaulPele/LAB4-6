@@ -19,17 +19,17 @@ def validate_number(value, type):
 
 
 
-def valid_position(pos, size):
+def validate_position(pos, size):
     """Returneaza true daca pozitia este valida pentru o lista de dimensiune size, altfel False
     :param pos: string reprezentand posibila pozitie
     :param size: numar natural reprezentand dimensiunea listei pentru care se face verificarea
     """
     if (not pos.isnumeric()) or (pos.isnumeric() and (int(pos) < 1 or int(pos)>size)):
-        return False
-    return True
+        raise Exception("Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size))
 
 
-def valid_insert_position(pos, size):
+
+def validate_insert_position(pos, size):
     """
     Returneaza true daca pozitia pos este corecta pentru operatia de inserare a unui numar pe o pozitie din lista
     :param pos: string reprezentand posibila pozitie
@@ -37,9 +37,13 @@ def valid_insert_position(pos, size):
     :return True: pozitie valida
             False: pozitie invalida
     """
+    if size == 0:
+        errorMsg = "Lista este goala. Pozitia de inserare trebuie sa fie egala cu 1"
+    else:
+        errorMsg = "Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size+1)
+
     if not pos.isnumeric():
-        return False
+        raise Exception(errorMsg)
     if (pos.isnumeric()) and (size !=0 and (int(pos) <1 or
                                             int(pos)>size+1) or (size == 0 and int(pos) != 1)):
-        return False
-    return True
+        raise Exception(errorMsg)

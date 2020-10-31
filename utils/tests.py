@@ -6,7 +6,7 @@ import BLL.lists.filters
 import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.operations
-import data.validation
+from data.validation import validate_position, validate_number, validate_insert_position
 from data.entities import Complex
 
 
@@ -166,9 +166,25 @@ def test_insert_number():
 
 
 def test_valid_position():
-    assert(data.validation.valid_position("5", 3) == False)
-    assert(data.validation.valid_position("5", 10) == True)
-    assert(data.validation.valid_position("-5", 10) == False)
+    try:
+        validate_position("5", 3)
+        assert(False)
+    except Exception as ex:
+        assert(str(ex) == "Pozitia trebuie sa fie o valoare naturala intre 1 si 3")
+
+    try:
+        validate_position("5", 10)
+        assert (True)
+    except Exception as ex:
+        assert (False)
+
+
+    try:
+        validate_position("-5", 10)
+        assert (False)
+    except Exception as ex:
+        assert (str(ex) == "Pozitia trebuie sa fie o valoare naturala intre 1 si 10")
+
 
 
 def test_delete_numbers():
@@ -204,43 +220,68 @@ def test_sort_list():
 
 
 def test_valid_insert_position():
-    assert(data.validation.valid_insert_position("5", 3) == False)
-    assert(data.validation.valid_insert_position("5", 10) == True)
-    assert(data.validation.valid_insert_position("-5", 10) == False)
-    assert(data.validation.valid_insert_position("1", 0) == True)
-    assert(data.validation.valid_insert_position("10", 9) == True)
+    try:
+        validate_insert_position("5", 3)
+        assert (False)
+    except Exception as ex:
+        assert (str(ex) == "Pozitia trebuie sa fie o valoare naturala intre 1 si 4")
+
+    try:
+        validate_insert_position("5", 10)
+        assert (True)
+    except Exception as ex:
+        assert (False)
+
+    try:
+        validate_insert_position("-5", 10)
+        assert (False)
+    except Exception as ex:
+        assert (str(ex) == "Pozitia trebuie sa fie o valoare naturala intre 1 si 11")
+
+    try:
+        validate_insert_position("1", 0)
+        assert (True)
+    except Exception as ex:
+        assert (False)
+
+    try:
+        validate_insert_position("10", 9)
+        assert (True)
+    except Exception as ex:
+        assert (False)
+
 
 
 def test_validate_number():
     try:
-        data.validation.validate_number("123", float)
+        validate_number("123", float)
     except ValueError as ex:
         assert(False)
 
     try:
-        data.validation.validate_number("1a.34", int)
+        validate_number("1a.34", int)
         assert (False)
     except ValueError as ex:
         assert(str(ex) == "Numarul trebuie sa fie de tipul intreg!\n")
 
     try:
-        data.validation.validate_number("12.5", float)
+        validate_number("12.5", float)
     except ValueError as ex:
         assert(False)
 
     try:
-        data.validation.validate_number("12.5", int)
+        validate_number("12.5", int)
         assert (False)
     except ValueError as ex:
         assert (str(ex) == "Numarul trebuie sa fie de tipul intreg!\n")
 
     try:
-        data.validation.validate_number("1+2j", complex)
+        validate_number("1+2j", complex)
     except ValueError as ex:
         assert (False)
 
     try:
-        data.validation.validate_number("1+aj", complex)
+        validate_number("1+aj", complex)
         assert (False)
     except ValueError as ex:
         assert (str(ex) == "Numarul trebuie sa fie de tipul complex!\n")
