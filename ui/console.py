@@ -9,6 +9,7 @@ import BLL.lists.filters
 from data.validation import validate_number, validate_position, validate_insert_position
 from data.entities import Complex
 from ui.menu import  Menu
+
 def print_menu(size):
     """
     Afiseaza meniul pentru utilizator
@@ -37,37 +38,73 @@ def print_menu(size):
 
 def create_menus(menuStack):
     addMenuItems = {"1": "1. Adaugati un numar complex la finalul listei",
-                    "2": "2. Inserati un numar complex pe o pozitie data"}
-    addMenuFunctions = {"1": add_number, "2": insert_number}
+                    "2": "2. Inserati un numar complex pe o pozitie data",
+                    "3": "3. Iesire"}
+    addMenuReturnFunctions = {"1": add_number, "2": insert_number}
+    addMenuFunctions = {"return": addMenuReturnFunctions, "noreturn": {}}
     addMenu = Menu(addMenuItems, addMenuFunctions)
 
     mainMenuItems = {"1": "1. Adaugare numar in lista",
-                     "2": "2. Modificare elemente din lista"}
+                     "2": "2. Modificare elemente din lista",
+                     "3": "3. Iesire"}
     mainMenuSubMenus = {"1": addMenu}
     mainMenu = Menu(mainMenuItems, None, mainMenuSubMenus)
     menuStack.append(mainMenu)
     return menuStack
 
 
-def callFunction(myList, currentMenu, op):
-    newList = currentMenu.get_menuFunctions()[op](myList)
-    return newList
+def callFunction(myList, currentMenu, op, menuStack):
+    if user_exits(currentMenu, op):
+        navigate_backwards(myList, menuStack)
+        return myList
+
+    menuReturnFunctions = currentMenu.get_menuReturnFunctions()
+    menuNoReturnFunctions = currentMenu.get_menuNoReturnFunctions()
+
+    if op in menuReturnFunctions:
+        newList = currentMenu.get_functionAt(menuReturnFunctions, op)(myList)
+        return newList
+    elif op in menuNoReturnFunctions:
+        currentMenu.get_functionAt(menuNoReturnFunctions, op)(myList)
+
+    return myList
+
+
+def user_exits(currentMenu, op):
+    menuItems = currentMenu.get_menuItems()
+    if int(op) == len(menuItems.keys()):
+        return True
+    return False
+
+
+def navigate_backwards(myList, menuStack):
+    if len(menuStack) >0:
+        menuStack.pop()
+
+
 
 def display_menu(myList, menuStack):
     currentMenu = menuStack[len(menuStack)-1]
     currentMenu.print_menu()
     op = read_option(len(myList), currentMenu)
-    currentSubMenus  = currentMenu.get_subMenus()
+    if user_exits(currentMenu, op):
+        navigate_backwards(myList, menuStack)
+        return myList
+    currentSubMenus = currentMenu.get_subMenus()
+
     if currentSubMenus is not None:
         if op in currentSubMenus.keys():
             #navigate to submenu
             menuStack.append(currentMenu.get_subMenuAt(op))
             display_menu(myList, menuStack)
         else:
-            myList = callFunction(myList, currentMenu, op)
+            newList = callFunction(myList, currentMenu, op, menuStack)
+            return newList
     else:
-        myList = callFunction(myList, currentMenu, op)
+        newList = callFunction(myList, currentMenu, op, menuStack)
+        return newList
 
+    return myList
 
 
 def print_seq_complex(myList, start, end, prop):
@@ -100,7 +137,9 @@ def read_option(size, currentMenu):
   #      options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
   #  else:
   #      options = ["1", "2", "13"]
-    options = currentMenu.get_menuItems().keys()
+    options = list(currentMenu.get_menuItems().keys())
+    #exitOp = str(len(options) + 1)
+    #options.append(exitOp)
     op = input("Alegeti o optiune: ").strip()
 
     while op not in options:
@@ -479,6 +518,8 @@ def run():
       #      noRetFunc[op](myList)
       #  else:
       #      myList= func[op](myList)
-        display_menu(myList, menuStack)
-        input("Apasati Enter pentru a continua...")
+        if len(menuStack) == 0:
+            return
+        myList = display_menu(myList, menuStack)
+        #input("Apasati Enter pentru a continua...")
 

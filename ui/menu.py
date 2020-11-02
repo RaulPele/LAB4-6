@@ -17,6 +17,19 @@ class Menu:
     def get_subMenuAt(self, key):
         return (self.get_subMenus())[key]
 
+    def get_menuReturnFunctions(self):
+        if self.get_menuFunctions() == None:
+            return None
+        return self.get_menuFunctions()["return"]
+
+    def get_menuNoReturnFunctions(self):
+        if self.get_menuFunctions() == None:
+            return None
+        return self.get_menuFunctions()["noreturn"]
+
+    def get_functionAt(self, functions, index):
+        return functions[index]
+
     def print_menu(self):
         items = self.get_menuItems().values()
         for item in items:
