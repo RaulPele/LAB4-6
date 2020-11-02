@@ -98,6 +98,10 @@ class Complex:
         return prod
 
 class ComplexOperations:
+    """
+    Contine o lista de numere complexe si o stiva cuprinzand istoricul
+    operatiilor efectuate asupra listei
+    """
     def __init__(self):
         self.__complexList = []
         self.__listStack = []
@@ -119,13 +123,17 @@ class ComplexOperations:
                 not BLL.lists.operations.isEqual(self.get_complexList(), list)):
             self.add_to_stack(self.get_complexList())
 
-
         self.__complexList = BLL.lists.IO.copy_list(list)
 
     def undo(self):
+        """
+        Efectueaza operatia de undo asupra listei
+        Reinitializeza lista cu ultima valoare din stiva
+        Elimina valoarea din stiva
+        :raise Exception: in caz ca asupra listei nu s-au efectuat operatii
+        """
         if len(self.__listStack) == 0:
             raise Exception("Asupra listei nu s-au efectuat operatii de modificare.\n")
 
         self.__complexList = BLL.lists.IO.copy_list(self.get_lastList())
         self.__listStack.pop()
-

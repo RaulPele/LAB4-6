@@ -10,7 +10,6 @@ from data.validation import validate_position, validate_number, validate_insert_
 from data.entities import Complex
 
 
-
 def convert_list(testList):
     """
     Converteste o lista de numere complexe intr-o lista de obiecte Complex
@@ -308,4 +307,3 @@ def run_tests():
     test_sort_list()
     test_validate_number()
     test_replace_number()
-

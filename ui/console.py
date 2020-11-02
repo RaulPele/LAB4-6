@@ -8,11 +8,15 @@ import BLL.lists.sorting
 import BLL.lists.filters
 from data.validation import validate_number, validate_position, validate_insert_position
 from data.entities import Complex, ComplexOperations
-from ui.menu import  Menu
+from ui.menu import Menu
 
 
 
 def create_menus():
+    """
+    Creeaza meniurile pentru utilizator
+    """
+
     addMenuItems = {"1": "1. Adaugati un numar complex la finalul listei",
                     "2": "2. Inserati un numar complex pe o pozitie data",
                     "3": "3. Inapoi..."}
@@ -68,6 +72,11 @@ def create_menus():
 
 
 def callFunction(complexOp, op):
+    """
+    Apeleaza functia corespunzatoare optiunii op din meniu pentru obiectul de operatii ComplexOperations
+    :param complexOp: obiect ComplexOperations
+    :param op: string - optiunea aleasa de utilizator
+    """
     currentMenu = Menu.get_currentMenu()
 
     if Menu.user_exits(op):
@@ -80,6 +89,11 @@ def callFunction(complexOp, op):
 
 
 def get_next_action(complexOp):
+    """
+    Preia optiunea de la utilizator si apeleaza functia corespunzatoare sau navigheaza in submeniul
+    corespunzator
+    :param complexOp: obiect ComplexOperations
+    """
     currentMenu = Menu.get_currentMenu()
 
     op = read_option(len(complexOp.get_complexList()))
@@ -94,7 +108,6 @@ def get_next_action(complexOp):
             # navigate to submenu
              Menu.navigate_to_submenu(op)
              return
-             #display_menu(myList)
         else:
             callFunction(complexOp, op)
     else:
@@ -102,9 +115,11 @@ def get_next_action(complexOp):
 
 
 def display_menu():
+    """
+    Afiseaza meniul curent
+    """
     currentMenu = Menu.get_currentMenu()
     currentMenu.print_menu()
-    #return get_next_action(myList)
 
 
 def read_option(size):
@@ -115,7 +130,6 @@ def read_option(size):
     currentMenu = Menu.get_currentMenu()
     options = list(currentMenu.get_menuItems().keys())
     op = input("Alegeti o optiune: ").strip()
-
 
     while op not in options:
         print("Valoare incorecta! Optiunea aleasa trebuie sa fie din multimea", options, '\n')
@@ -128,7 +142,7 @@ def print_seq_complex(myList, start, end, prop):
     """
     Afiseaza elementele din myList dintre pozitiile start si end
 
-    :param myList: lista de numere complexe
+    :param myList: lista de numere complexe (obiecte Complex)
     :param start: pozitia de start
     :param end: pozitia finala
     :param prop: proprietatea in urma careia s-a ajuns la aceasta secventa (None implicit)
@@ -142,7 +156,6 @@ def print_seq_complex(myList, start, end, prop):
         listStr = BLL.lists.IO.format_list(myList)
         print(listStr)
         print()
-
 
 
 def __get_number(type, inputMsg):
@@ -201,9 +214,10 @@ def __get_condition(x):
 
 def filter_module(complexOp):
     """
-    Elimina elementele din myList a caror modul indeplinesc o conditie data
+    Elimina elementele din lista de numere complexe
+    corespunzatoare obiectului complexOp (ComplexOperations)
+    a caror modul indeplinesc o conditie data
     :param complexOp: obiect de tip ComplexOperation
-    :return myList: lista obtinuta in urma eliminarii
     """
 
     if len(complexOp.get_complexList()) == 0:
@@ -225,9 +239,9 @@ def filter_module(complexOp):
 
 def filter_prime(complexOp):
     """
-    Elimina elementele din lista myList care au partea reala un numar prim
-    si afiseaza lista obtinuta.
-    :param myList: obiect ComplexOperation
+    Elimina elementele din lista de numere complexe corespunzatoare obiectului complexOp
+    care au partea reala un numar prim si afiseaza lista obtinuta.
+    :param complexOp: obiect ComplexOperation
     """
 
     if len(complexOp.get_complexList()) == 0:
@@ -267,7 +281,7 @@ def __get_positions(size):
 def sum_secv(complexOp):
     """
     Preia datele de la utilizator, determina suma si afiseaza rezultatul.
-    :param myList: lista de numere complexe
+    :param complexOp: obiect ComplexOperations
     """
 
     if complexOp.get_complexListSize() == 0:
@@ -283,6 +297,10 @@ def sum_secv(complexOp):
 
 
 def prod_secv(complexOp):
+    """
+    Preia datele de la utilizator si determina produsul numerelor aflate intr-o secventa
+    :param complexOp: obiect ComplexOperations
+    """
     if complexOp.get_complexListSize() == 0:
         print("Lista este goala\n")
         return
@@ -300,7 +318,7 @@ def print_imag_list(complexOp):
     """
     Obtine datele de intrare de la utilizator, lista partilor imaginare corespunzatoare
     si apeleaza functia de afisare a partilor imaginare
-    a numerelor aflate in myList in interavlul [start, end]
+    a numerelor aflate in lista de numere reale a obiectului complexOp in interavlul [start, end]
     :param complexOp: obiect ComplexOperation
     """
 
@@ -321,11 +339,10 @@ def print_imag_list(complexOp):
 
 def add_number(complexOp):
     """
-    Preia un numar complex de la utilizator, il adauga la finalul listei si afiseaza rezultatul
-    returnand lista obtinuta sau afiseaza un mesaj corespunzator daca elementul exista deja
-    in lista.
-    :param myList: lista de numere complexe
-    :return complexOp: obiect de tip complex
+    Preia un numar complex de la utilizator, il adauga la finalul listei din complexOp
+    si afiseaza rezultatul returnand lista obtinuta sau afiseaza un mesaj corespunzator
+    daca elementul exista deja in lista.
+    :param complexOp: obiect ComplexOperations
     """
 
     c = get_Complex()
@@ -386,8 +403,7 @@ def insert_number(complexOp):
     Preia un numar complex de la utilizator, il adauga in lista pe o pozitie data si afiseaza rezultatul
     returnand lista obtinuta sau afiseaza un mesaj corespunzator daca elementul exista deja in lista.
 
-    :param myList: lista de numere complexe
-    :return newList: lista obtinuta in urma adaugarii
+    :param complexOp: obiect ComplexOperations
     """
 
     c = get_Complex()
@@ -409,8 +425,7 @@ def delete_number(complexOp):
     """
     Preia poiztia de la utilizator de pe care se va elimina numarul complex, elimina numarul si afiseaza
     lista rezultata sau un mesaj corespunzator daca lista este goala.
-    :param myList: lista de numere complexe
-    :return newList: lista rezultata in urma eliminarii
+    :param complexOp: obiect ComplexOperations
     """
 
     if len(complexOp.get_complexList()) == 0:
@@ -431,8 +446,7 @@ def delete_sequence(complexOp):
     """
     Preia pozitiile start, end de la utilizator  si elimina elementele de pe pozitiile [start, end], afiseaza
     rezultatul si returneaza lista obtinuta sau tipareste un mesaj corespunzator daca lista este goala
-    :param myList: lista de numere complexe
-    :return newList: lista obtinuta in urma eliminarii
+    :param complexOp: obiect ComplexOperations
     """
 
     if len(complexOp.get_complexList()) == 0:
@@ -452,7 +466,7 @@ def delete_sequence(complexOp):
 def sort_desc_img(complexOp):
     """
     Sorteaza si afiseaza lista ordonata descrescator dupa partea imaginara
-    :param myList: lista de obiecte Complex
+    :param complexOp: obiect ComplexOperations
     """
     if len(complexOp.get_complexList()) == 0:
         print("Lista este goala.")
@@ -468,8 +482,7 @@ def replace_number(complexOp):
     Inlocuieste toate aparitiile unui numar complex din lista cu un numar
     dat de utilizator sau afiseaza un mesaj corespunzator daca numarul
     nu se afla in lista
-    :param myList: lista de obiecte Complex
-    :return newList: lista obtinuta in urma inlocuirii
+    :param complexOp: obiect ComplexOperations
     """
     if len(complexOp.get_complexList())==0:
         print("Lista este goala.")
@@ -491,7 +504,7 @@ def replace_number(complexOp):
 def print_modless10(complexOp):
     """
     Tipareste numerele din lista care au modulul mai mic decat 10
-    :param myList: lista de obiecte Complex
+    :param complexOp: obiect ComplexOperations
     """
     if len(complexOp.get_complexList()) == 0:
         print("Lista este goala.")
@@ -503,6 +516,10 @@ def print_modless10(complexOp):
 
 
 def print_modeq10(complexOp):
+    """
+    Tipareste numerele din lista cu modulul egal cu 10
+    :param complexOp: obiect ComplexOperations
+    """
 
     if len(complexOp.get_complexList()) == 0:
         print("Lista este goala")
@@ -529,8 +546,7 @@ def undo_list(complexOp):
 
 def run():
     """
-    Functia principala care ruleaza programul si apeleaza functiile corespunzatoare optiunilor alese
-    de catre utilizator
+    Functia principala care ruleaza programul
     """
 
     complexOp = ComplexOperations()
@@ -543,4 +559,3 @@ def run():
 
         display_menu()
         get_next_action(complexOp)
-

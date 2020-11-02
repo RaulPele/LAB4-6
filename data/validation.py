@@ -28,7 +28,6 @@ def validate_position(pos, size):
         raise Exception("Pozitia trebuie sa fie o valoare naturala intre 1 si " + str(size))
 
 
-
 def validate_insert_position(pos, size):
     """
     Returneaza true daca pozitia pos este corecta pentru operatia de inserare a unui numar pe o pozitie din lista

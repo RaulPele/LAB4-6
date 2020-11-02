@@ -1,6 +1,8 @@
 
 class Menu:
-
+    """
+    Clasa pentru reprezentarea unui meniu cu submeniuri si functionalitati
+    """
     __menuStack=[]
 
     def __init__(self, menuItems, menuFunctions = None, subMenus = None):
@@ -20,7 +22,6 @@ class Menu:
     def get_subMenuAt(self, key):
         return (self.get_subMenus())[key]
 
-
     def get_functionAt(self, functions, index):
         return functions[index]
 
@@ -32,6 +33,12 @@ class Menu:
 
     @staticmethod
     def user_exits(op):
+        """
+        Returneaza True daca optiunea aleasa de utilizator op indica iesirea din meniul curent.
+        :param op: str - optiunea aleasa de utilizator
+        :return True: utilizatorul iese din submeniu
+        :return False: altfel
+        """
         menuItems = Menu.get_currentMenu().get_menuItems()
         if int(op) == len(menuItems.keys()):
             return True
@@ -64,5 +71,3 @@ class Menu:
     def initialize_stack(mainMenu):
         if len(Menu.__menuStack) == 0:
             Menu.__menuStack.append(mainMenu)
-
-
