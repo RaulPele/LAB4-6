@@ -16,48 +16,41 @@ def create_menus():
     addMenuItems = {"1": "1. Adaugati un numar complex la finalul listei",
                     "2": "2. Inserati un numar complex pe o pozitie data",
                     "3": "3. Inapoi..."}
-    addMenuReturnFunctions = {"1": add_number, "2": insert_number}
-    addMenuFunctions = {"return": addMenuReturnFunctions, "noreturn": {}}
+    addMenuFunctions = {"1": add_number, "2": insert_number}
     addMenu = Menu(addMenuItems, addMenuFunctions)
 
     modifyMenuItems = {"1": "1. Stergeti un numar de pe o pozitie data",
                        "2": "2. Stergeti o secventa de numere din lista",
                        "3": "3. Inlocuire numar complex din lista",
                        "4": "4. Inapoi..."}
-    modifyMenuReturnFunctions = {"1": delete_number, "2": delete_sequence, "3": replace_number}
-    modifyMenuFunctions = {"return": modifyMenuReturnFunctions, "noreturn":{}}
+    modifyMenuFunctions = {"1": delete_number, "2": delete_sequence, "3": replace_number}
     modifyMenu = Menu(modifyMenuItems, modifyMenuFunctions)
 
     searchMenuItems = {"1": "1. Tipariti partea imaginara a numerelor complexe dintr-o secventa",
                        "2": "2. Tipariti elementele din lista care au modulul mai mic decat 10",
                        "3": "3. Tipariti elementele din lista care au modulul egal cu 10",
                        "4": "4. Inapoi..."}
-    searchMenuNoReturnFunctions = {"1": print_imag_list, "2": print_modless10, "3": print_modeq10}
-    searchMenuFunctions = {"noreturn": searchMenuNoReturnFunctions, "return":{}}
+    searchMenuFunctions = {"1": print_imag_list, "2": print_modless10, "3": print_modeq10}
     searchMenu = Menu(searchMenuItems, searchMenuFunctions)
 
     operationMenuItems={"1": "1. Calculati suma numerelor dintr-o secventa data",
                         "2": "2. Tipariti lista ordonata descrescator dupa partea imaginara",
                         "3": "3. Determinati produsul numerelor dintr-o secventa",
                         "4": "4. Inapoi..."}
-    operationMenuReturnFunctions = {}
-    operationMenuNoReturnFunctions = {"1": sum_secv,"2": sort_desc_img, "3": prod_secv}
-    operationMenuFunctions = {"return": operationMenuReturnFunctions,
-                              "noreturn": operationMenuNoReturnFunctions}
+    operationMenuFunctions = {"1": sum_secv,"2": sort_desc_img, "3": prod_secv}
+
     operationMenu = Menu(operationMenuItems, operationMenuFunctions)
 
     filterMenuItems = {"1": "1. Eliminati toate numerele din lista are au partea reala un numar prim ",
                        "2": "2. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"+
                             "decat un numar dat",
                        "3": "3. Inapoi..."}
-    filterMenuNoReturnFunctions = {"1": filter_prime, "2": filter_module}
-    filterMenuFunctions = {"noreturn": filterMenuNoReturnFunctions, "return":{}}
+    filterMenuFunctions = {"1": filter_prime, "2": filter_module}
     filterMenu = Menu(filterMenuItems, filterMenuFunctions)
 
     undoMenuItems = {"1": "1. Refaceti ultima operatie din lista. Lista revine la versiunea anterioara",
                      "2": "2. Inapoi..."}
-    undoMenuReturnFunctions = {"1": undo_list}
-    undoMenuFunctions = {"return": undoMenuReturnFunctions, "noreturn": {}}
+    undoMenuFunctions = {"1": undo_list}
     undoMenu = Menu(undoMenuItems, undoMenuFunctions)
 
     mainMenuItems = {"1": "1. Adaugare numar in lista",
@@ -80,14 +73,10 @@ def callFunction(complexOp, op):
     if Menu.user_exits(op):
         Menu.navigate_backwards()
 
-    menuReturnFunctions = currentMenu.get_menuReturnFunctions()
-    menuNoReturnFunctions = currentMenu.get_menuNoReturnFunctions()
+    menuFunctions = currentMenu.get_menuFunctions()
 
-    if op in menuReturnFunctions:
-        currentMenu.get_functionAt(menuReturnFunctions, op)(complexOp)
-    elif op in menuNoReturnFunctions:
-        currentMenu.get_functionAt(menuNoReturnFunctions, op)(complexOp)
-
+    if op in menuFunctions:
+        currentMenu.get_functionAt(menuFunctions, op)(complexOp)
 
 
 def get_next_action(complexOp):
@@ -299,9 +288,10 @@ def prod_secv(complexOp):
         return
 
     myList = BLL.lists.IO.copy_list(complexOp.get_complexList())
+    print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
     start, end = __get_positions(len(myList))
     prod = BLL.lists.operations.det_prod(myList, start, end)
-    print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
+
     print("\nProdusul numerelor dintre pozitiile " + str(start) + " si "+ str(end) + " este: "+
           prod.get_complex_string() +"\n")
 
