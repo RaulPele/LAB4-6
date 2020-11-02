@@ -3,7 +3,8 @@ Modul pentru crearea entitatilor de date utilizate de program
 """
 
 from data.validation import validate_number
-
+import BLL.lists.operations
+import BLL.lists.IO
 
 class Complex:
     """
@@ -81,7 +82,12 @@ class Complex:
 
     @staticmethod
     def times(c1, c2):
-        """Returneaza produsul dintre c1 si c2"""
+        """
+        Returneaza produsul dintre c1 si c2
+        :param c1:  obiect Complex
+        :param c2: obiect Complex
+        :return: prod - obiect de tip Complex
+        """
 
         prod = c1.copy_complex()
         real = prod.get_real() * c2.get_real() - prod.get_imag() * c2.get_imag()
@@ -90,3 +96,36 @@ class Complex:
         prod.set_imag(imag)
 
         return prod
+
+class ComplexOperations:
+    def __init__(self):
+        self.__complexList = []
+        self.__listStack = []
+
+    def get_complexList(self):
+        return self.__complexList
+
+    def get_lastList(self):
+        return self.__listStack[len(self.__listStack)-1]
+
+    def get_complexListSize(self):
+        return len(self.__complexList)
+
+    def add_to_stack(self, list):
+        self.__listStack.append(list)
+
+    def set_complexList(self, list):
+        if len(self.__listStack) == 0 or (
+                not BLL.lists.operations.isEqual(self.get_complexList(), list)):
+            self.add_to_stack(self.get_complexList())
+
+
+        self.__complexList = BLL.lists.IO.copy_list(list)
+
+    def undo(self):
+        if len(self.__listStack) == 0:
+            raise Exception("Asupra listei nu s-au efectuat operatii de modificare.\n")
+
+        self.__complexList = BLL.lists.IO.copy_list(self.get_lastList())
+        self.__listStack.pop()
+

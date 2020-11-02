@@ -3,7 +3,7 @@ Modul pentru operatii de input/output din lista
 """
 
 import utils.numbers
-from data.entities import  Complex
+import data.entities
 
 def get_imaginaries(myList, start, end):
     """
@@ -17,7 +17,7 @@ def get_imaginaries(myList, start, end):
 
     imaginaries = []
     for i in range(start-1, end):
-        c = Complex()
+        c = data.entities.Complex()
         c.set_imag(myList[i].get_imag())
         imaginaries.append(c)
 
@@ -34,7 +34,7 @@ def in_list(myList, c):
     """
 
     for nr in myList:
-        if Complex.isEqual(c, nr):
+        if data.entities.Complex.isEqual(c, nr):
             return True
     return False
 
@@ -109,8 +109,8 @@ def replace_number(myList, number, replacement):
 
     newList = copy_list(myList)
     for i in range(0, len(newList)):
-        if Complex.isEqual(newList[i], number):
-            newList[i] = Complex.copy_complex(replacement)
+        if data.entities.Complex.isEqual(newList[i], number):
+            newList[i] = data.entities.Complex.copy_complex(replacement)
 
     return newList
 

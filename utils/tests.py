@@ -10,6 +10,7 @@ from data.validation import validate_position, validate_number, validate_insert_
 from data.entities import Complex
 
 
+
 def convert_list(testList):
     """
     Converteste o lista de numere complexe intr-o lista de obiecte Complex
@@ -22,18 +23,6 @@ def convert_list(testList):
         complexList.append(compl)
     return complexList
 
-
-def isEqual(list1, list2):
-    """Returneaza true daca cele doua liste sunt egale
-    :param list1: lista de obiecte Complex
-    :param list2: lista de obiecte Complex
-    :return True: daca cele doua liste sunt egale"""
-    if len(list1) != len(list2):
-        return False
-    for i in range (0, len(list1)):
-        if not Complex.isEqual(list1[i], list2[i]):
-            return False
-    return True
 
 def test_prime():
     assert (numbers.is_prime(-7) == False)
@@ -50,7 +39,7 @@ def test_filter_elements():
     myList = convert_list([1, -2 + 2j, 2 + 2j, 6j])
     results = BLL.lists.filters.filter_elements(myList, numbers.is_prime)
     correct = convert_list([1, -2 + 2j, 6j])
-    assert(isEqual(results, correct) == True)
+    assert(BLL.lists.operations.isEqual(results, correct) == True)
 
     myList = convert_list([2 + 2j, 3, 2, 7 + 5j])
     results = BLL.lists.filters.filter_elements(myList, numbers.is_prime)
@@ -60,12 +49,12 @@ def test_filter_elements():
     myList = convert_list([1, -2 + 2j, 2 + 2j, 6j])
     results = BLL.lists.filters.filter_elements(myList, numbers.less_than, 4)
     correct = convert_list([6j])
-    assert(isEqual(results, correct) == True )
+    assert(BLL.lists.operations.isEqual(results, correct) == True )
 
     myList = convert_list([1, -2 + 2j, 2 + 2j, 6j])
     results = BLL.lists.filters.filter_elements(myList, numbers.greater_than, 4)
     correct = convert_list([1, -2 + 2j, 2 + 2j])
-    assert(isEqual(results, correct) == True )
+    assert(BLL.lists.operations.isEqual(results, correct) == True )
 
 
 def test_det_sum():
@@ -100,19 +89,19 @@ def test_get_imaginaries():
     correct = convert_list([0,  0, 0])
     imag_convert(correct)
 
-    assert(isEqual(imaginaries, correct))
+    assert(BLL.lists.operations.isEqual(imaginaries, correct))
 
     myList = convert_list([1j, 2, 4j, -2 - 2j])
     imaginaries = BLL.lists.IO.get_imaginaries(myList, 2, 4)
     correct = convert_list([0j, 4j, -2j])
     imag_convert(correct)
-    assert(isEqual(imaginaries, correct))
+    assert(BLL.lists.operations.isEqual(imaginaries, correct))
 
     myList = convert_list([-2j, -3j, 4j, 5j])
     imaginaries = BLL.lists.IO.get_imaginaries(myList, 1, 4)
     correct = convert_list([-2j, -3j, 4j, 5j])
     imag_convert(correct)
-    assert(isEqual(imaginaries, correct))
+    assert(BLL.lists.operations.isEqual(imaginaries, correct))
 
 
 def test_duplicates():
@@ -129,7 +118,7 @@ def test_add_number():
     try:
         results = BLL.lists.IO.add_number(myList, Complex(10, 2))
         correct = convert_list([1j, 2, 4-5j, 10+2j])
-        assert(isEqual(results, correct) )
+        assert(BLL.lists.operations.isEqual(results, correct) )
     except Exception as ex:
         assert(False)
 
@@ -145,7 +134,7 @@ def test_insert_number():
     try:
         results = BLL.lists.IO.insert_number(myList, Complex(0, 2), 1)
         correct = convert_list([2j])
-        assert(isEqual(results, correct))
+        assert(BLL.lists.operations.isEqual(results, correct))
     except Exception as ex:
         assert(False)
 
@@ -153,7 +142,7 @@ def test_insert_number():
     try:
         results = BLL.lists.IO.insert_number(myList, Complex(0, 2), 2)
         correct = convert_list([-2, 2j, -2j, 3, 4j])
-        assert(isEqual(results, correct))
+        assert(BLL.lists.operations.isEqual(results, correct))
     except Exception as ex:
         assert(False)
 
@@ -198,7 +187,7 @@ def test_delete_numbers():
         myList = convert_list([1, 2j, 3 + 4j, -5j])
         results = BLL.lists.IO.delete_numbers(myList, 1, 3)
         correct = convert_list([-5j])
-        assert(isEqual(results, correct))
+        assert(BLL.lists.operations.isEqual(results, correct))
     except Exception as ex:
         assert(False)
 
@@ -208,7 +197,7 @@ def test_sort_list():
         myList = convert_list([1, 1 + 2j, 5j, 3j, -100 + 100j])
         results = BLL.lists.sorting.sort_list(myList, BLL.lists.sorting.imag_desc)
         correct = convert_list([-100 + 100j, 5j, 3j, 1+2j, 1])
-        assert(isEqual(results, correct))
+        assert(BLL.lists.operations.isEqual(results, correct))
     except Exception as ex:
         assert(False)
 
@@ -300,7 +289,7 @@ def test_replace_number():
         myList = convert_list([1+2j, -1-2j, 0, 1+2j, 100+100j])
         results = BLL.lists.IO.replace_number(myList, number, Complex(0, 0))
         correct = convert_list([0, -1-2j, 0, 0, 100+100j])
-        assert(isEqual(results, correct))
+        assert(BLL.lists.operations.isEqual(results, correct))
     except Exception as ex:
         assert (False)
 

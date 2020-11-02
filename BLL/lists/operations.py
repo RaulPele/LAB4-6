@@ -25,7 +25,7 @@ def det_prod(myList, start, end):
     :param myList: lista de numere complexe
     :param start: pozitia initiala
     :param end: pozitia finala
-    :return suma: produsul elementelor din [start, end] (0 - valoare implicita)
+    :return suma: produsul elementelor din [start, end] (0 - valoare implicita) (obiect Complex)
     """
     if len(myList) == 0:
         return Complex(0, 0)
@@ -36,3 +36,15 @@ def det_prod(myList, start, end):
 
     return prod
 
+
+def isEqual(list1, list2):
+    """Returneaza true daca cele doua liste sunt egale
+    :param list1: lista de obiecte Complex
+    :param list2: lista de obiecte Complex
+    :return True: daca cele doua liste sunt egale"""
+    if len(list1) != len(list2):
+        return False
+    for i in range (0, len(list1)):
+        if not Complex.isEqual(list1[i], list2[i]):
+            return False
+    return True
