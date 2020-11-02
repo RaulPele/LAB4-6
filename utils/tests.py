@@ -31,7 +31,7 @@ def isEqual(list1, list2):
     if len(list1) != len(list2):
         return False
     for i in range (0, len(list1)):
-        if not numbers.isEqual(list1[i], list2[i]):
+        if not Complex.isEqual(list1[i], list2[i]):
             return False
     return True
 
@@ -71,17 +71,17 @@ def test_filter_elements():
 def test_det_sum():
     result = BLL.lists.operations.det_sum([], 1, 0)
     correct = Complex(0, 0)
-    assert(numbers.isEqual(result, correct))
+    assert(Complex.isEqual(result, correct))
 
     myList = convert_list([1 + 1j, 2 + 2j, 3, 4j])
     result = BLL.lists.operations.det_sum(myList, 1, 4)
     correct = Complex(6, 7)
-    assert(numbers.isEqual(result, correct))
+    assert(Complex.isEqual(result, correct))
 
     myList = convert_list([-1, -5 + 3j, 3 - 5j])
     result = BLL.lists.operations.det_sum(myList, 1, 2)
     correct = Complex(-6, 3)
-    assert(numbers.isEqual(result, correct))
+    assert(Complex.isEqual(result, correct))
 
 
 def imag_convert(list):

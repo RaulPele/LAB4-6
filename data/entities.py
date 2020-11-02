@@ -64,3 +64,18 @@ class Complex:
         :return copy: copia obiectului self
         """
         return Complex(self.get_real(), self.get_imag())
+
+    def isEqual(c1, c2):
+        """
+        Functia verifica daca doua obiecte Complex c1 si c2 sunt egale
+        :param c1: obiect Complex
+        :param c2: obiect Complex
+        :return True: daca obiectele sunt egale
+                False: daca obiectele nu sunt egale
+        """
+
+        if c1.get_real() == c2.get_real() and c1.get_imag() == c2.get_imag():
+            return True
+        return False
+
+    

@@ -10,54 +10,68 @@ from data.validation import validate_number, validate_position, validate_insert_
 from data.entities import Complex
 from ui.menu import  Menu
 
-def print_menu(size):
-    """
-    Afiseaza meniul pentru utilizator
-    """
-    
-    if size != 0:
-        print("1. Adaugati un numar complex la finalul listei")
-        print("2. Inserati un numar complex pe o pozitie data")
-        print("3. Tipariti partea imaginara a numerelor complexe dintr-o secventa")
-        print("4. Calculati suma numerelor dintr-o secventa data")
-        print("5. Tipariti lista ordonata descrescator dupa partea imaginara")
-        print("6. Eliminati toate numerele din lista are au partea reala un numar prim")
-        print("7. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"
-              "decat un numar dat")
-        print("8. Stergeti un numar de pe o pozitie data")
-        print("9. Stergeti o secventa de numere din lista")
-        print("10. Inlocuire numar complex din lista")
-        print("11. Tipariti elementele din lista care au modulul mai mic decat 10")
-        print("12. Tipariti elementele din lista care au modulul egal cu 10")
-        print("13. Iesire\n")
-    else:
-        print("1. Adaugati un numar complex la finalul listei")
-        print("2. Inserati un numar complex pe o pozitie data")
-        print("13. Iesire")
 
 
-def create_menus(menuStack):
+def create_menus():
     addMenuItems = {"1": "1. Adaugati un numar complex la finalul listei",
                     "2": "2. Inserati un numar complex pe o pozitie data",
-                    "3": "3. Iesire"}
+                    "3": "3. Inapoi..."}
     addMenuReturnFunctions = {"1": add_number, "2": insert_number}
     addMenuFunctions = {"return": addMenuReturnFunctions, "noreturn": {}}
     addMenu = Menu(addMenuItems, addMenuFunctions)
 
+    modifyMenuItems = {"1": "1. Stergeti un numar de pe o pozitie data",
+                       "2": "2. Stergeti o secventa de numere din lista",
+                       "3": "3. Inlocuire numar complex din lista",
+                       "4": "4. Inapoi..."}
+    modifyMenuReturnFunctions = {"1": delete_number, "2": delete_sequence, "3": replace_number}
+    modifyMenuFunctions = {"return": modifyMenuReturnFunctions, "noreturn":{}}
+    modifyMenu = Menu(modifyMenuItems, modifyMenuFunctions)
+
+    searchMenuItems = {"1": "1. Tipariti partea imaginara a numerelor complexe dintr-o secventa",
+                       "2": "2. Tipariti elementele din lista care au modulul mai mic decat 10",
+                       "3": "3. Tipariti elementele din lista care au modulul egal cu 10",
+                       "4": "4. Inapoi..."}
+    searchMenuNoReturnFunctions = {"1": print_imag_list, "2": print_modless10, "3": print_modeq10}
+    searchMenuFunctions = {"noreturn": searchMenuNoReturnFunctions, "return":{}}
+    searchMenu = Menu(searchMenuItems, searchMenuFunctions)
+
+    operationMenuItems={"1": "1. Calculati suma numerelor dintr-o secventa data",
+                        "2": "2. Tipariti lista ordonata descrescator dupa partea imaginara",
+                        "3": "3. Inapoi..."}
+    operationMenuReturnFunctions = {"1": sum_secv}
+    operationMenuNoReturnFunctions = {"2": sort_desc_img}
+    operationMenuFunctions = {"return": operationMenuReturnFunctions,
+                              "noreturn": operationMenuNoReturnFunctions}
+    operationMenu = Menu(operationMenuItems, operationMenuFunctions)
+
+    filterMenuItems = {"1": "1. Eliminati toate numerele din lista are au partea reala un numar prim ",
+                       "2": "2. Eliminati toate numerele din lista care au modulul mai mic, egal sau mai mare\n"+
+                            "decat un numar dat",
+                       "3": "3. Inapoi..."}
+    filterMenuNoReturnFunctions = {"1": filter_prime, "2": filter_module}
+    filterMenuFunctions = {"noreturn": filterMenuNoReturnFunctions, "return":{}}
+    filterMenu = Menu(filterMenuItems, filterMenuFunctions)
+
+
     mainMenuItems = {"1": "1. Adaugare numar in lista",
                      "2": "2. Modificare elemente din lista",
-                     "3": "3. Iesire"}
-    mainMenuSubMenus = {"1": addMenu}
+                     "3": "3. Cautare numere",
+                     "4": "4. Operatii cu elemente din lista",
+                     "5": "5. Filtrare",
+                     "6": "6. Iesire"}
+    mainMenuSubMenus = {"1": addMenu, "2": modifyMenu, "3": searchMenu,
+                        "4": operationMenu, "5": filterMenu}
     mainMenu = Menu(mainMenuItems, None, mainMenuSubMenus)
-    menuStack.append(mainMenu)
-    return menuStack
+
+    Menu.initialize_stack(mainMenu)
 
 
-def callFunction(myList, op, menuStack):
-    currentMenu = get_currentMenu(menuStack)
+def callFunction(myList, op):
+    currentMenu = Menu.get_currentMenu()
 
-    if user_exits(currentMenu, op):
-        navigate_backwards(menuStack)
+    if Menu.user_exits(op):
+        Menu.navigate_backwards()
         return myList
 
     menuReturnFunctions = currentMenu.get_menuReturnFunctions()
@@ -72,34 +86,11 @@ def callFunction(myList, op, menuStack):
     return myList
 
 
-def user_exits(currentMenu, op):
-    menuItems = currentMenu.get_menuItems()
-    if int(op) == len(menuItems.keys()):
-        return True
-    return False
-
-
-def navigate_backwards(menuStack):
-    if len(menuStack) > 0:
-        menuStack.pop()
-
-
-def get_currentMenu(menuStack):
-    return menuStack[len(menuStack)-1]
-
-
-def navigate_to_submenu(myList, menuStack, op):
-    currentMenu = get_currentMenu(menuStack)
-    menuStack.append(currentMenu.get_subMenuAt(op))
-    myList = display_menu(myList, menuStack)
-    return myList
-
-
-def get_next_action(myList, menuStack):
-    currentMenu = get_currentMenu(menuStack)
-    op = read_option(len(myList), currentMenu)
-    if user_exits(currentMenu, op):
-        navigate_backwards(menuStack)
+def get_next_action(myList):
+    currentMenu = Menu.get_currentMenu()
+    op = read_option(len(myList))
+    if Menu.user_exits(op):
+        Menu.navigate_backwards()
         return myList
 
     currentSubMenus = currentMenu.get_subMenus()
@@ -107,21 +98,39 @@ def get_next_action(myList, menuStack):
     if currentSubMenus is not None:
         if op in currentSubMenus.keys():
             # navigate to submenu
-            myList = navigate_to_submenu(myList, menuStack, op)
+             Menu.navigate_to_submenu(op)
+             myList = display_menu(myList)
         else:
-            newList = callFunction(myList, op, menuStack)
+            newList = callFunction(myList, op)
             return newList
     else:
-        newList = callFunction(myList, op, menuStack)
+        newList = callFunction(myList, op)
         return newList
 
     return myList
 
 
-def display_menu(myList, menuStack):
-    currentMenu = get_currentMenu(menuStack)
+def display_menu(myList):
+    currentMenu = Menu.get_currentMenu()
     currentMenu.print_menu()
-    return get_next_action(myList, menuStack)
+    return get_next_action(myList)
+
+
+def read_option(size):
+    """
+    Citeste optiunea utilizatorului corespunzatoare meniului curent si returneaza un raspuns valid
+    :return op: optiunea aleasa - str
+    """
+    currentMenu = Menu.get_currentMenu()
+    options = list(currentMenu.get_menuItems().keys())
+    op = input("Alegeti o optiune: ").strip()
+
+
+    while op not in options:
+        print("Valoare incorecta! Optiunea aleasa trebuie sa fie din multimea", options, '\n')
+        op = input("Alegeti o optiune: ").strip()
+    print()
+    return op
 
 
 def print_seq_complex(myList, start, end, prop):
@@ -143,20 +152,6 @@ def print_seq_complex(myList, start, end, prop):
         print(listStr)
         print()
 
-
-def read_option(size, currentMenu):
-    """
-    Citeste optiunea utilizatorului si returneaza un raspuns valid
-    :return op: optiunea aleasa - str
-    """
-
-    options = list(currentMenu.get_menuItems().keys())
-    op = input("Alegeti o optiune: ").strip()
-
-    while op not in options:
-        print("Valoare incorecta! Optiunea aleasa trebuie sa fie din multimea", options, '\n')
-        op = input("Alegeti o optiune: ").strip()
-    return op
 
 
 def __get_number(type, inputMsg):
@@ -517,20 +512,13 @@ def run():
                  "12":print_modeq10}
     func = {"1": add_number, "2": insert_number, "8": delete_number,
             "9": delete_sequence, "10": replace_number}
-    menuStack=[]
-    menuStack = create_menus(menuStack)
+
+    create_menus()
 
     while True:
-     #   print_menu(len(myList))
-      #  op = read_option(len(myList))
-      #  if op == "13":  # iesire din program
-      #      return
-      #  if op in noRetFunc:
-      #      noRetFunc[op](myList)
-      #  else:
-      #      myList= func[op](myList)
-        if len(menuStack) == 0:
+
+        if Menu.get_stack_size() == 0:
             return
-        myList = display_menu(myList, menuStack)
+        myList = display_menu(myList)
         #input("Apasati Enter pentru a continua...")
 

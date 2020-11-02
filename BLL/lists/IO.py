@@ -34,7 +34,7 @@ def in_list(myList, c):
     """
 
     for nr in myList:
-        if utils.numbers.isEqual(c, nr):
+        if Complex.isEqual(c, nr):
             return True
     return False
 
@@ -109,7 +109,7 @@ def replace_number(myList, number, replacement):
 
     newList = copy_list(myList)
     for i in range(0, len(newList)):
-        if utils.numbers.isEqual(newList[i], number):
+        if Complex.isEqual(newList[i], number):
             newList[i] = Complex.copy_complex(replacement)
 
     return newList

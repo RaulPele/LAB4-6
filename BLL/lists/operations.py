@@ -14,7 +14,7 @@ def det_sum(myList, start, end):
     sumaR = 0
     sumaI= 0
     for i in range(start-1, end):
-        sumaR +=  myList[i].get_real()
+        sumaR += myList[i].get_real()
         sumaI += myList[i].get_imag()
     return Complex(sumaR, sumaI)
 
