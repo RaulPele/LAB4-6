@@ -1,18 +1,18 @@
 
 class Menu:
     def __init__(self, menuItems, menuFunctions = None, subMenus = None):
-        self.menuItems = menuItems
-        self.menuFunctions = menuFunctions
-        self.subMenus = subMenus
+        self.__menuItems = menuItems
+        self.__menuFunctions = menuFunctions
+        self.__subMenus = subMenus
 
     def get_menuItems(self):
-        return self.menuItems
+        return self.__menuItems
 
     def get_menuFunctions(self):
-        return self.menuFunctions
+        return self.__menuFunctions
 
     def get_subMenus(self):
-        return self.subMenus
+        return self.__subMenus
 
     def get_subMenuAt(self, key):
         return (self.get_subMenus())[key]
@@ -35,3 +35,4 @@ class Menu:
         for item in items:
             print(item)
         print()
+

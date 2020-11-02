@@ -14,13 +14,13 @@ class Complex:
     IMAGINARY = "imag"
 
     def __init__(self, real=None, imaginary=None):
-        self.number = {Complex.REAL: real, Complex.IMAGINARY: imaginary}
+        self.__number = {Complex.REAL: real, Complex.IMAGINARY: imaginary}
 
     def get_real(self):
-        return self.number[Complex.REAL]
+        return self.__number[Complex.REAL]
 
     def get_imag(self):
-        return self.number[Complex.IMAGINARY]
+        return self.__number[Complex.IMAGINARY]
 
     def set_real(self, value):
         try:
@@ -28,7 +28,7 @@ class Complex:
         except ValueError as ex:
             raise ValueError(str(ex))
         else:
-            self.number[Complex.REAL] = value
+            self.__number[Complex.REAL] = value
 
     def set_imag(self, value):
         try:
@@ -36,7 +36,7 @@ class Complex:
         except ValueError as ex:
             raise ValueError(str(ex))
         else:
-            self.number[Complex.IMAGINARY] = value
+            self.__number[Complex.IMAGINARY] = value
 
     def get_complex_string(self):
         """Formateaza dictionarul care reprezinta numarul complex

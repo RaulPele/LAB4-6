@@ -53,9 +53,11 @@ def create_menus(menuStack):
     return menuStack
 
 
-def callFunction(myList, currentMenu, op, menuStack):
+def callFunction(myList, op, menuStack):
+    currentMenu = get_currentMenu(menuStack)
+
     if user_exits(currentMenu, op):
-        navigate_backwards(myList, menuStack)
+        navigate_backwards(menuStack)
         return myList
 
     menuReturnFunctions = currentMenu.get_menuReturnFunctions()
@@ -77,34 +79,49 @@ def user_exits(currentMenu, op):
     return False
 
 
-def navigate_backwards(myList, menuStack):
-    if len(menuStack) >0:
+def navigate_backwards(menuStack):
+    if len(menuStack) > 0:
         menuStack.pop()
 
 
+def get_currentMenu(menuStack):
+    return menuStack[len(menuStack)-1]
 
-def display_menu(myList, menuStack):
-    currentMenu = menuStack[len(menuStack)-1]
-    currentMenu.print_menu()
+
+def navigate_to_submenu(myList, menuStack, op):
+    currentMenu = get_currentMenu(menuStack)
+    menuStack.append(currentMenu.get_subMenuAt(op))
+    myList = display_menu(myList, menuStack)
+    return myList
+
+
+def get_next_action(myList, menuStack):
+    currentMenu = get_currentMenu(menuStack)
     op = read_option(len(myList), currentMenu)
     if user_exits(currentMenu, op):
-        navigate_backwards(myList, menuStack)
+        navigate_backwards(menuStack)
         return myList
+
     currentSubMenus = currentMenu.get_subMenus()
 
     if currentSubMenus is not None:
         if op in currentSubMenus.keys():
-            #navigate to submenu
-            menuStack.append(currentMenu.get_subMenuAt(op))
-            display_menu(myList, menuStack)
+            # navigate to submenu
+            myList = navigate_to_submenu(myList, menuStack, op)
         else:
-            newList = callFunction(myList, currentMenu, op, menuStack)
+            newList = callFunction(myList, op, menuStack)
             return newList
     else:
-        newList = callFunction(myList, currentMenu, op, menuStack)
+        newList = callFunction(myList, op, menuStack)
         return newList
 
     return myList
+
+
+def display_menu(myList, menuStack):
+    currentMenu = get_currentMenu(menuStack)
+    currentMenu.print_menu()
+    return get_next_action(myList, menuStack)
 
 
 def print_seq_complex(myList, start, end, prop):
@@ -133,13 +150,7 @@ def read_option(size, currentMenu):
     :return op: optiunea aleasa - str
     """
 
-  #  if size != 0:
-  #      options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
-  #  else:
-  #      options = ["1", "2", "13"]
     options = list(currentMenu.get_menuItems().keys())
-    #exitOp = str(len(options) + 1)
-    #options.append(exitOp)
     op = input("Alegeti o optiune: ").strip()
 
     while op not in options:
