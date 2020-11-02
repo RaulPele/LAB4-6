@@ -7,7 +7,7 @@ import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.operations
 from data.validation import validate_position, validate_number, validate_insert_position
-from data.entities import Complex
+from data.entities import Complex, ComplexOperations
 
 
 def convert_list(testList):
@@ -293,6 +293,49 @@ def test_replace_number():
         assert (False)
 
 
+def test_det_prod():
+    myList=[]
+    results = BLL.lists.operations.det_prod(myList, 0, 0)
+    assert (Complex.isEqual(results, Complex(0, 0)))
+
+    myList = convert_list([1+2j, 3+5j, 20+3j, 3+4j])
+    results = BLL.lists.operations.det_prod(myList, 1, 3)
+    prod = (1+2j)*(3+5j)*(20+3j)
+    correct = Complex(prod.real, prod.imag)
+    assert(Complex.isEqual(results, correct))
+
+
+def test_undo():
+    complexOp = ComplexOperations()
+    complexOp.set_complexList(convert_list([1+2j]))
+    complexOp.set_complexList(convert_list([1+2j, -1+3j]))
+    complexOp.set_complexList(convert_list([0, -1+3j]))
+
+    try:
+        complexOp.undo()
+        assert (BLL.lists.operations.isEqual(complexOp.get_complexList(), convert_list([1+2j, -1+3j])))
+    except Exception as ex:
+        assert (False)
+
+    try:
+        complexOp.undo()
+        assert (BLL.lists.operations.isEqual(complexOp.get_complexList(), convert_list([1+2j])))
+    except Exception as ex:
+        assert (False)
+
+    try:
+        complexOp.undo()
+        assert (BLL.lists.operations.isEqual(complexOp.get_complexList(), []))
+    except Exception as ex:
+        assert (False)
+
+    try:
+        complexOp.undo()
+        assert (False)
+    except Exception as ex:
+        assert (str(ex)=="Asupra listei nu s-au efectuat operatii de modificare.\n")
+
+
 def run_tests():
     test_prime()
     test_filter_elements()
@@ -307,3 +350,5 @@ def run_tests():
     test_sort_list()
     test_validate_number()
     test_replace_number()
+    test_det_prod()
+    test_undo()
