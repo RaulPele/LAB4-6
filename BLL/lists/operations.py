@@ -18,3 +18,21 @@ def det_sum(myList, start, end):
         sumaI += myList[i].get_imag()
     return Complex(sumaR, sumaI)
 
+
+def det_prod(myList, start, end):
+    """
+    Determina produsul elementelor din myList aflate in secventa [start, end]
+    :param myList: lista de numere complexe
+    :param start: pozitia initiala
+    :param end: pozitia finala
+    :return suma: produsul elementelor din [start, end] (0 - valoare implicita)
+    """
+    if len(myList) == 0:
+        return Complex(0, 0)
+
+    prod = myList[start-1].copy_complex()
+    for i in range(start, end):
+        prod = Complex.times(prod, myList[i])
+
+    return prod
+

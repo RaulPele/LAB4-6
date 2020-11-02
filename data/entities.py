@@ -65,6 +65,7 @@ class Complex:
         """
         return Complex(self.get_real(), self.get_imag())
 
+    @staticmethod
     def isEqual(c1, c2):
         """
         Functia verifica daca doua obiecte Complex c1 si c2 sunt egale
@@ -78,4 +79,14 @@ class Complex:
             return True
         return False
 
-    
+    @staticmethod
+    def times(c1, c2):
+        """Returneaza produsul dintre c1 si c2"""
+
+        prod = c1.copy_complex()
+        real = prod.get_real() * c2.get_real() - prod.get_imag() * c2.get_imag()
+        imag = prod.get_real() * c2.get_imag() + prod.get_imag() * c2.get_real()
+        prod.set_real(real)
+        prod.set_imag(imag)
+
+        return prod

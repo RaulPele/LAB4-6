@@ -13,6 +13,6 @@ def test():
 if __name__ == "__main__":
     run_tests()
     run()
-    #test()
+    #print((1+2j)*(1+3j)*(1+2j))
 
 

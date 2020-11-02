@@ -38,9 +38,10 @@ def create_menus():
 
     operationMenuItems={"1": "1. Calculati suma numerelor dintr-o secventa data",
                         "2": "2. Tipariti lista ordonata descrescator dupa partea imaginara",
-                        "3": "3. Inapoi..."}
-    operationMenuReturnFunctions = {"1": sum_secv}
-    operationMenuNoReturnFunctions = {"2": sort_desc_img}
+                        "3": "3. Determinati produsul numerelor dintr-o secventa",
+                        "4": "4. Inapoi..."}
+    operationMenuReturnFunctions = {}
+    operationMenuNoReturnFunctions = {"1": sum_secv,"2": sort_desc_img, "3": prod_secv}
     operationMenuFunctions = {"return": operationMenuReturnFunctions,
                               "noreturn": operationMenuNoReturnFunctions}
     operationMenu = Menu(operationMenuItems, operationMenuFunctions)
@@ -287,6 +288,17 @@ def sum_secv(myList):
     print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
     print("\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
           suma.get_complex_string() + "\n")
+
+
+def prod_secv(myList):
+    if len(myList) == 0:
+        print("Lista este goala\n")
+        return
+    start, end = __get_positions(len(myList))
+    prod = BLL.lists.operations.det_prod(myList, start, end)
+    print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
+    print("\nProdusul numerelor dintre pozitiile " + str(start) + " si "+ str(end) + " este: "+
+          prod.get_complex_string() +"\n")
 
 
 def print_imag_list(myList):
