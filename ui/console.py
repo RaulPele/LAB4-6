@@ -235,6 +235,7 @@ def filter_module(complexOp):
 
     printMsg = "Lista obtinuta in urma eliminarii este: "
     print_seq_complex(filteredList, 0, len(filteredList), printMsg)
+    input("Apasati Enter pentru a continua...\n")
 
 
 def filter_prime(complexOp):
@@ -256,6 +257,7 @@ def filter_prime(complexOp):
 
     condition = "Lista obtinuta in urma eliminarii tuturor numerelor cu partea reala prima este: "
     print_seq_complex(filteredList, 0, len(filteredList), condition)
+    input("Apasati Enter pentru a continua...\n")
 
 
 def __get_positions(size):
@@ -294,6 +296,7 @@ def sum_secv(complexOp):
     print_seq_complex(myList, 0, len(myList), "Lista de numere: ")
     print("\nSuma numerelor dintre pozitiile " + str(start) + " si " +str(end) +" este: "+
           suma.get_complex_string() + "\n")
+    input("Apasati Enter pentru a continua...\n")
 
 
 def prod_secv(complexOp):
@@ -312,6 +315,7 @@ def prod_secv(complexOp):
 
     print("\nProdusul numerelor dintre pozitiile " + str(start) + " si "+ str(end) + " este: "+
           prod.get_complex_string() +"\n")
+    input("Apasati Enter pentru a continua...\n")
 
 
 def print_imag_list(complexOp):
@@ -335,6 +339,7 @@ def print_imag_list(complexOp):
 
     printMsg = "Partile imaginare ale numerelor aflate intre pozitiile " + str(start) + " si " + str(end) + " sunt: "
     print_seq_complex(imaginaries, 0, len(imaginaries), printMsg)
+    input("Apasati Enter pentru a continua...\n")
 
 
 def add_number(complexOp):
@@ -355,6 +360,7 @@ def add_number(complexOp):
         printMsg = "Lista obtinuta in urma adaugarii este: "
         print_seq_complex(myList, 0, len(myList), printMsg)
         complexOp.set_complexList(myList)
+        input("Apasati Enter pentru a continua...\n")
 
 
 
@@ -419,6 +425,7 @@ def insert_number(complexOp):
         printMsg = "Lista obtinuta in urma inserarii este: "
         print_seq_complex(myList, 0, len(myList), printMsg)
         complexOp.set_complexList(myList)
+        input("Apasati Enter pentru a continua...\n")
 
 
 def delete_number(complexOp):
@@ -440,6 +447,7 @@ def delete_number(complexOp):
 
     print_seq_complex(myList, 0, len(myList), "Lista obtinuta in urma eliminarii: ")
     complexOp.set_complexList(myList)
+    input("Apasati Enter pentru a continua...\n")
 
 
 def delete_sequence(complexOp):
@@ -461,6 +469,7 @@ def delete_sequence(complexOp):
 
     print_seq_complex(newList, 0, len(myList), "Lista rezultata in urma eliminarii este: ")
     complexOp.set_complexList(myList)
+    input("Apasati Enter pentru a continua...\n")
 
 
 def sort_desc_img(complexOp):
@@ -475,6 +484,7 @@ def sort_desc_img(complexOp):
     myList = BLL.lists.IO.copy_list(complexOp.get_complexList())
     myList = BLL.lists.sorting.sort_list(myList, BLL.lists.sorting.imag_desc)
     print_seq_complex(myList, 0, len(myList), "Lista sortata descrescator dupa partea imaginara: ")
+    input("Apasati Enter pentru a continua...\n")
 
 
 def replace_number(complexOp):
@@ -499,6 +509,7 @@ def replace_number(complexOp):
     else:
         print_seq_complex(myList, 0, len(myList), "Lista obtinuta in urma inlocuirii: ")
         complexOp.set_complexList(myList)
+        input("Apasati Enter pentru a continua...\n")
 
 
 def print_modless10(complexOp):
@@ -513,6 +524,7 @@ def print_modless10(complexOp):
     print_seq_complex(myList, 0, len(myList), "Lista initiala este: ")
     myList = BLL.lists.filters.filter_elements(myList, numbers.greater_than, 10)
     print_seq_complex(myList, 0, len(myList), "Lista numerelor cu modulul mai mic decat 10: ")
+    input("Apasati Enter pentru a continua...\n")
 
 
 def print_modeq10(complexOp):
@@ -529,6 +541,7 @@ def print_modeq10(complexOp):
     myList = BLL.lists.filters.filter_elements(myList,  numbers.less_than, 10)
     myList = BLL.lists.filters.filter_elements(myList, numbers.greater_than, 10)
     print_seq_complex(myList, 0, len(myList), "Lista numerelor cu modulul egal cu 10: ")
+    input("Apasati Enter pentru a continua...\n")
 
 
 def undo_list(complexOp):
@@ -542,6 +555,7 @@ def undo_list(complexOp):
         print(str(ex))
     else:
         print_seq_complex(complexOp.get_complexList(), 0, complexOp.get_complexListSize(), "Lista rezultata este: ")
+        input("Apasati Enter pentru a continua...\n")
 
 
 def run():

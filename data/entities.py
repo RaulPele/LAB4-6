@@ -135,5 +135,5 @@ class ComplexOperations:
         if len(self.__listStack) == 0:
             raise Exception("Asupra listei nu s-au efectuat operatii de modificare.\n")
 
-        self.__complexList = BLL.lists.IO.copy_list(self.get_lastList())
+        self.__complexList = self.get_lastList()
         self.__listStack.pop()
