@@ -3,7 +3,8 @@ class Menu:
     """
     Clasa pentru reprezentarea unui meniu cu submeniuri si functionalitati
     """
-    __menuStack=[]
+    __menuStack = []
+    __commands = {}
 
     def __init__(self, menuItems, menuFunctions = None, subMenus = None):
         self.__menuItems = menuItems
@@ -15,6 +16,14 @@ class Menu:
 
     def get_menuFunctions(self):
         return self.__menuFunctions
+
+    @staticmethod
+    def get_commands():
+        return Menu.__commands
+
+    @staticmethod
+    def set_commands(commands):
+        Menu.__commands = commands
 
     def get_subMenus(self):
         return self.__subMenus
@@ -71,3 +80,7 @@ class Menu:
     def initialize_stack(mainMenu):
         if len(Menu.__menuStack) == 0:
             Menu.__menuStack.append(mainMenu)
+
+    @staticmethod
+    def get_commandAt(key):
+        return Menu.__commands[key]

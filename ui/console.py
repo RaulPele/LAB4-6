@@ -6,7 +6,7 @@ import BLL.lists.operations
 import BLL.lists.IO
 import BLL.lists.sorting
 import BLL.lists.filters
-from data.validation import validate_number, validate_position, validate_insert_position
+from data.validation import validate_number, validate_position, validate_insert_position, validate_command
 from data.entities import Complex, ComplexOperations
 from ui.menu import Menu
 
@@ -66,9 +66,12 @@ def create_menus():
                      "7": "7. Iesire"}
     mainMenuSubMenus = {"1": addMenu, "2": modifyMenu, "3": searchMenu,
                         "4": operationMenu, "5": filterMenu, "6": undoMenu}
+
+    commands = {"add": add_command, "delete": delete_command, "print": print_command, "undo": undo_list}
     mainMenu = Menu(mainMenuItems, None, mainMenuSubMenus)
 
     Menu.initialize_stack(mainMenu)
+    Menu.set_commands(commands)
 
 
 def callFunction(complexOp, op):
@@ -88,7 +91,10 @@ def callFunction(complexOp, op):
         currentMenu.get_functionAt(menuFunctions, op)(complexOp)
 
 
-def get_next_action(complexOp):
+def navigate_menu(op):
+    pass
+
+def get_next_action(complexOp, op):
     """
     Preia optiunea de la utilizator si apeleaza functia corespunzatoare sau navigheaza in submeniul
     corespunzator
@@ -96,7 +102,7 @@ def get_next_action(complexOp):
     """
     currentMenu = Menu.get_currentMenu()
 
-    op = read_option(len(complexOp.get_complexList()))
+
     if Menu.user_exits(op):
         Menu.navigate_backwards()
         return
@@ -108,10 +114,8 @@ def get_next_action(complexOp):
             # navigate to submenu
              Menu.navigate_to_submenu(op)
              return
-        else:
-            callFunction(complexOp, op)
-    else:
-        callFunction(complexOp, op)
+
+    callFunction(complexOp, op)
 
 
 def display_menu():
@@ -127,14 +131,14 @@ def read_option(size):
     Citeste optiunea utilizatorului corespunzatoare meniului curent si returneaza un raspuns valid
     :return op: optiunea aleasa - str
     """
-    currentMenu = Menu.get_currentMenu()
-    options = list(currentMenu.get_menuItems().keys())
-    op = input("Alegeti o optiune: ").strip()
+    #currentMenu = Menu.get_currentMenu()
+    #options = list(currentMenu.get_menuItems().keys())
+    #commands = Menu.get_commands()
 
-    while op not in options:
-        print("Valoare incorecta! Optiunea aleasa trebuie sa fie din multimea", options, '\n')
-        op = input("Alegeti o optiune: ").strip()
+    op = input("Alegeti o optiune: ")
+
     print()
+
     return op
 
 
@@ -544,7 +548,7 @@ def print_modeq10(complexOp):
     input("Apasati Enter pentru a continua...\n")
 
 
-def undo_list(complexOp):
+def undo_list(complexOp, args = None):
     """
     Reface ultima operatie din lista aducand-o la versiunea anterioara.
     :param complexOp: obiect ComplexOperation
@@ -556,6 +560,83 @@ def undo_list(complexOp):
     else:
         print_seq_complex(complexOp.get_complexList(), 0, complexOp.get_complexListSize(), "Lista rezultata este: ")
         input("Apasati Enter pentru a continua...\n")
+
+
+def add_command(complexOp, args=None):
+    try:
+        number = complex(args)
+    except ValueError:
+        print("Argument invalid\n")
+    else:
+        compl = Complex(number.real, number.imag)
+        myList = complexOp.get_complexList()
+        myList = BLL.lists.IO.add_number(myList, compl)
+        complexOp.set_complexList(myList)
+        print_seq_complex(myList, 0, len(myList), "Lista rezultata: \n")
+
+
+def delete_command(complexOp, args = None):
+
+    try:
+        validate_position(args, complexOp.get_complexListSize())
+    except ValueError:
+        print("Argument invalid\n")
+    else:
+        pos = int(args)
+        myList = complexOp.get_complexList()
+        myList = BLL.lists.IO.delete_numbers(myList, pos, pos)
+        complexOp.set_complexList(myList)
+        print_seq_complex(myList, 0, len(myList), "Lista rezultata: \n")
+
+
+def print_command(complexOp, args = None):
+    if args != "imag":
+        print("Argument invalid")
+        return
+
+    myList = BLL.lists.IO.copy_list(complexOp.get_complexList())
+    myList = BLL.lists.sorting.sort_list(myList, BLL.lists.sorting.imag_desc)
+    print_seq_complex(myList, 0, len(myList), "Lista rezultata: \n")
+
+
+def isOption(op):
+    currentMenu = Menu.get_currentMenu()
+    options = list(currentMenu.get_menuItems().keys())
+    if op not in options:
+        return False
+    return True
+
+
+def getCommand(cmd):
+    commands = Menu.get_commands()
+    #cmd args
+    currentCmd = cmd.split(" ")
+    try:
+        validate_command(currentCmd[0], list(commands.keys()))
+    except Exception as ex:
+        print(str(ex))
+        return
+    if len(currentCmd)>1:
+        return Menu.get_commandAt(currentCmd[0]), currentCmd[1]
+    return Menu.get_commandAt(currentCmd[0]), None
+
+
+def interpretCommands(complexOp, op):
+    userCmds = op.split(";")
+    for cmd in userCmds:
+        try:
+            command, arg= getCommand(cmd)
+        except Exception as ex:
+            print("Comanda " + cmd+ " este invalida!\n")
+        else:
+            command(complexOp, arg)
+
+
+def manage_option(complexOp, op):
+    if isOption(op):
+        get_next_action(complexOp, op)
+        return
+    interpretCommands(complexOp, op)
 
 
 def run():
@@ -572,4 +653,6 @@ def run():
             return
 
         display_menu()
-        get_next_action(complexOp)
+        op = read_option(len(complexOp.get_complexList()))
+        #get_next_action(complexOp, op)
+        manage_option(complexOp, op)

@@ -46,3 +46,9 @@ def validate_insert_position(pos, size):
     if (pos.isnumeric()) and (size !=0 and (int(pos) <1 or
                                             int(pos)>size+1) or (size == 0 and int(pos) != 1)):
         raise Exception(errorMsg)
+
+def validate_command(cmd, commands):
+
+    if cmd not in commands:
+        raise Exception("Comanda invalida!\n")
+    return True
